@@ -1,4 +1,5 @@
-# 🌊 PoolConnect
+<img width="1536" height="1024" alt="ChatGPT Image 4 déc  2025, 11_07_22" src="https://github.com/user-attachments/assets/374204d0-3c9a-45c3-aad7-c8a686e8a70f" />
+
 
 PoolConnect est un système qui rend votre piscine connectée, intelligente et open source 🔥
 
