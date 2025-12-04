@@ -1,132 +1,210 @@
 🌊 PoolConnect
-Smart, adaptive and open-source pool filtration controller
+Smart, adaptive and open-source pool automation controller
 🔥 Overview
 
-PoolConnect is an open-source project designed to modernize pool filtration.
-Instead of relying on a classic timer that ignores water temperature and real usage conditions, PoolConnect adjusts filtration intelligently — reducing energy costs and improving water quality.
+PoolConnect is an open-source hardware and software project designed to make pool management smarter, safer, and more energy-efficient.
+Instead of relying on outdated mechanical timers, PoolConnect dynamically adjusts filtration and controls multiple pool devices based on real conditions — not guesswork.
 
-This project is currently in early prototype stage, with the electronic schematic and PCB already designed. A first hardware batch is planned for production in China, and community support will help accelerate development.
+The hardware schematic and PCB prototype are already designed using an ESP32-S3-WROOM-1 (N16R8), and a first production run in China is planned. Community support helps accelerate this step.
 
-🎯 Why PoolConnect?
+🎯 What Problem Does It Solve?
 
-Traditional pool timers run on fixed schedules:
-⛔ They don’t consider water temperature
-⛔ They waste energy when filtration runs 7/7
-⛔ They require manual adjustments
+Traditional pool installations often rely on:
 
-PoolConnect solves this by turning any pool into a smart, connected system.
+⛔ Fixed timers that ignore water temperature
 
-✨ Key Features (current & planned)
-✔ Already working in prototype code
+⛔ Manual monitoring of water level
+
+⛔ No alert system for leaks in the pool house
+
+⛔ No monitoring of filter pressure or clogging
+
+⛔ No automation based on weather
+
+PoolConnect brings intelligence, connectivity, and safety — all in a fully open-source solution.
+
+✨ Key Features (hardware + software)
+✔ Filtration & Water Quality
 
 Automatic filtration time based on water temperature
 
-Weather-aware filtration (planned conditions adjust runtime)
+Temperature measured via DS18B20 digital probe
 
-Custom timer feature (classic timer replacement)
+Weather-aware filtration adjustments
 
-Pool cover detection & integration
+Custom timer mode (behavior similar to a programmable clock)
 
-Web interface prototype
+✔ Safety & Monitoring
 
-Early Home Assistant integration (WIP)
+4–20 mA pressure sensor input for real-time filter clogging detection
+→ Configurable alert thresholds
+→ Predictive maintenance (“time to clean the filter”)
 
-🚧 Under active development
+Water leak sensor in the pool house
+→ Instant alert if the technical room floods
 
-Complete firmware rewrite (clean architecture)
+On-board buzzer for audible alarms (leak, high pressure, fault)
 
-Secure API and web dashboard
+✔ Device Control
 
-OTA firmware updates
+PoolConnect controls multiple devices through relay outputs:
 
-Energy-optimized algorithms
+Pump (filtration)
 
-Local & offline mode
+Electrolyser
 
-Plug-and-play installation guide
+Pool Lighting
 
-📡 Hardware Status
+Heat Pump (ON/OFF control)
 
-The following elements are already completed:
+12 V solenoid valve for automatic pool refilling
 
-✔ Electronic schematic
+✔ Connectivity & Integration
 
-✔ PCB V1 (prototype)
+Embedded web interface (ESP32-S3)
 
-✔ Complete design for manufacturing
+Home Assistant compatibility (MQTT / native integrations planned)
 
-✔ ESP32 architecture
+Local-first system: no cloud required
 
-✔ Relay/driver system for pump + electrolyser
+Optional external API for remote access
 
-✔ Temperature sensor interface
+🔧 Hardware Overview
+Main MCU
 
-📸 You can include your screenshots of PCB + schematic here.
+ESP32-S3-WROOM-1 (N16R8)
+→ 16 MB Flash, 8 MB PSRAM
+→ Wi-Fi + USB native support
 
-Next step: funding the first 20–50 units for production in China.
+Sensors & Inputs
 
-🧠 How It Works (simplified)
+DS18B20 digital temperature probe
 
-PoolConnect measures water temperature, checks weather forecasts, and applies a filtration algorithm to decide how long and when the pump should run.
+4–20 mA pressure sensor input (filter monitoring)
 
-flowchart LR
-    TEMP[Water Temperature Sensor] --> LOGIC[Filtration Algorithm]
+Water leak detector (simple dry-contact)
+
+Outputs & Relays
+
+Relay for filtration pump
+
+Relay for heat pump
+
+Relay for lighting
+
+Relay for electrolyser
+
+12 V solenoid valve driver (automatic filling)
+
+Alerts & Indicators
+
+On-board buzzer
+
+Status LED indicators (optional)
+
+Power + Protections
+
+Isolated low-voltage domain
+
+12 V driver stage isolation
+
+Input protection and filtering
+
+📸 Insert your PCB + schematic screenshots here when ready.
+
+📡 System Architecture
+flowchart TD
+    TEMP[DS18B20 Temp Sensor] --> LOGIC[Filtration Algorithm]
+    PRESS[Pressure Sensor 4-20mA] --> LOGIC
+    LEAK[Leak Sensor] --> ALERT
     WEATHER[Weather Forecast] --> LOGIC
-    COVER[Pool Cover Status] --> LOGIC
-    LOGIC --> RELAY[Pump & Electrolyser Control]
-    ESP[ESP32 Web/API] --> LOGIC
+    LOGIC --> RELAY1[Pump Control]
+    LOGIC --> RELAY2[Electrolyser]
+    LOGIC --> RELAY3[Lighting]
+    LOGIC --> RELAY4[Heat Pump ON/OFF]
+    LOGIC --> SOLV[12V Solenoid Valve]
+    ALERT --> BUZZER[Buzzer Alarm]
+    ESP[ESP32-S3 Web UI / MQTT] --> LOGIC
 
-🛠️ Current Prototype Code
+🧪 Software Status
 
-The firmware is currently in a proof-of-concept phase.
-Nothing is final, and the code structure will evolve heavily.
+The firmware is currently in a prototype/testing stage:
 
-➡ If you want, you can send me your code and I’ll rewrite this section to match your current logic, files, and modules.
+Temperature monitoring ✔
+
+First version of filtration logic ✔
+
+Basic web interface ✔
+
+Hardware abstraction layer WIP
+
+MQTT + Home Assistant integration WIP
+
+Pressure sensor, leak detection & alarms planned next
+
+➡ When you send me your current prototype code, je peux :
+
+Décrire précisément les modules
+
+Améliorer la section architecture
+
+Proposer une structure firmware propre et scalable
+
+Donner un aperçu clair du code pour les futurs contributeurs
 
 🚀 Roadmap
+🟢 Hardware
 
- Clean, modular firmware architecture
+ Schematic V1
 
- Fully functional web dashboard
-
- Home Assistant auto-discovery
-
- Mobile-friendly UI
-
- Weather API integration
-
- Asynchronous task engine
+ PCB prototype
 
  PCB V2 (production-ready)
 
- 3D-printed enclosure
+ First manufacturing batch (China)
 
- Multi-language support (FR/EN)
+ Enclosure design
 
- Cloud-free option (local only)
+🟠 Software
+
+ Complete firmware rewrite
+
+ Full pressure monitoring logic
+
+ Leak detection alarms
+
+ Dynamic dashboard (web)
+
+ Mobile responsive UI
+
+ Home Assistant auto-discovery
+
+ OTA updates
+
+ Calibration wizard
 
 🤝 Contributing
 
-PoolConnect is designed as a community-driven project.
-Ideas, feedback, beta testers, and contributors are all welcome.
-
-You can help by:
-
-Opening issues
-
-Suggesting new features
-
-Testing early firmware
-
-Sharing your pool configuration
-
-Helping with documentation
+PoolConnect is a community-driven project:
+You can help by providing feedback, ideas, testing prototypes, or contributing to code and electronics.
+Every skill matters: software, electronics, 3D printing, UI, documentation…
 
 ❤️ Support the Project
 
-If PoolConnect helps you save time and energy — or if you simply want to support open hardware — you can help fund the PCB production:
+The next milestone is manufacturing the PCB in China.
+If PoolConnect inspires you or helps make pool automation accessible, you can support development:
 
-👉 Add here your future links (PayPal, Ko-Fi, BuyMeACoffee, GitHub Sponsors)
+👉 Add here your PayPal / Ko-Fi / BuyMeACoffee / GitHub Sponsors links
+
+Your contribution directly funds hardware production.
+
+📄 License
+
+MIT License — free to use, modify and redistribute.
+
+📬 Contact
+
+Feel free to reach out or open an issue to follow development or contribute.
 
 Your support accelerates hardware production and helps keep the project fully open-source.
 
