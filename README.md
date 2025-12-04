@@ -98,8 +98,6 @@ Le firmware est actuellement en phase de prototypage/test :
 ---
 <img width="444" height="508" alt="Capture d’écran 2025-12-04 105107" src="https://github.com/user-attachments/assets/c80b6ae0-70dc-4068-804d-37493614642e" />
 <img width="1900" height="845" alt="Capture d’écran 2025-12-04 105415" src="https://github.com/user-attachments/assets/32e969f4-3591-4a84-afe9-c3cb77ede2a1" />
-<img width="1413" height="305" alt="Capture d’écran 2025-12-04 105425" src="https://github.com/user-attachments/assets/102d2d24-0349-4674-b80f-7847d498de9d" />
-
 
 ## 🚀 Feuille de route
 
