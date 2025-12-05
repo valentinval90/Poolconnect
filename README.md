@@ -105,7 +105,7 @@ Le firmware est actuellement en phase de prototypage/test :
 - Schéma V1  
 - Prototype de circuit imprimé  
 - PCB V2  
-- Premier lot de prototype chez JLCPCB 
+- Premier lot de prototype chez [JLCPCB](https://jlcpcb.com/fr)  
 - Intégration dans coffret électrique de piscine ([exemple Amazon](https://amzn.eu/d/afS3UlJ))  
 
 ### 🟠 Logiciel
@@ -123,6 +123,10 @@ Le firmware est actuellement en phase de prototypage/test :
 
 PoolConnect est un projet communautaire : vous pouvez contribuer en donnant votre avis, en testant des prototypes ou en participant au développement du code et de l’électronique.  
 Toutes les compétences sont les bienvenues : développement logiciel, électronique, impression 3D, interface utilisateur, documentation…
+
+J’ai choisi JLCPCB pour leur expertise et leur accompagnement tout au long du processus de production des prototypes.
+Ils offrent également une excellente qualité de fabrication, une réactivité remarquable, et enfin des tarifs très attractifs !
+De plus, il existe énormément d’options disponibles pour vérifier ou mesurer différents aspects des PCB : c’est un véritable plus !
 
 ---
 
