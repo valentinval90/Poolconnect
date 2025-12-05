@@ -105,7 +105,7 @@ Le firmware est actuellement en phase de prototypage/test :
 - Schéma V1  
 - Prototype de circuit imprimé  
 - PCB V2  
-- Premier lot de prototype chez [JLCPCB](https://jlcpcb.com/fr)  
+- Premier lot de prototype chez [JLCPCB](https://cart.jlcpcb.com/fr/quote?from=valentin.)  
 - Intégration dans coffret électrique de piscine ([exemple Amazon](https://amzn.eu/d/afS3UlJ))  
 
 ### 🟠 Logiciel
