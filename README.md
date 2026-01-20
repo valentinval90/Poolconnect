@@ -82,7 +82,8 @@ Les installations de piscines traditionnelles reposent souvent sur :
 - Voyants d’état externes pour chaque relais (5 V)  
 
 ---
-<img width="945" height="558" alt="image" src="https://github.com/user-attachments/assets/bf2e089b-eac9-4bf1-b299-2e257974d98a" />
+<img width="1263" height="802" alt="image" src="https://github.com/user-attachments/assets/73d831a6-8316-4375-83a4-593155cd2701" />
+
 
 ## 🧪 État du logiciel
 
@@ -90,15 +91,15 @@ Le firmware est actuellement en phase de prototypage/test :
 - Surveillance de la température ✔  
 - Première version de la logique de filtration ✔  
 - Interface web basique ✔  
-- Couche d'abstraction matérielle en cours  
-- Intégration MQTT + Home Assistant en cours  
-- Capteur de pression, détection de fuites et alarmes prévus prochainement  
+- Couche d'abstraction matérielle ✔  
+- Intégration MQTT + Home Assistant ✔  
+- Capteur de pression, détection de fuites et alarmes ✔    
 - Et d’autres fonctionnalités à venir  
 
 ---
-<img width="444" height="508" alt="Capture d’écran 2025-12-04 105107" src="https://github.com/user-attachments/assets/c80b6ae0-70dc-4068-804d-37493614642e" />
-<img width="1900" height="845" alt="Capture d’écran 2025-12-04 105415" src="https://github.com/user-attachments/assets/32e969f4-3591-4a84-afe9-c3cb77ede2a1" />
-
+<img width="446" height="538" alt="image" src="https://github.com/user-attachments/assets/f8c1eac2-8a08-45c3-abbe-f5ee3647511e" />
+<img width="1892" height="902" alt="image" src="https://github.com/user-attachments/assets/56ebca87-8b25-4ff3-93ae-a713702825d7" />
+- Pour plus de visuel allez dans le dossier img du github.
 ## 🚀 Feuille de route
 
 ### 🟢 Matériel
