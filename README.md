@@ -110,7 +110,6 @@ Le firmware est actuellement en phase de prototypage/test :
 - Intégration dans coffret électrique de piscine ([exemple Amazon](https://amzn.eu/d/afS3UlJ))  
 
 ### 🟠 Logiciel
-- Réécriture complète du firmware avec dissociation des modules  
 - Logique de surveillance de pression complète  
 - Alarmes de détection de fuites  
 - Tableau de bord dynamique (web)  
