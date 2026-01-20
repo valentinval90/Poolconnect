@@ -15,7 +15,7 @@ Il permet également le contrôle de plusieurs équipements de la piscine :
 - Éclairage (contact sec)  
 - Commande pour une électrovanne 12 V pour l’ajout d’eau automatique dans la piscine  
 
-Le schéma matériel et le prototype de circuit imprimé sont déjà conçus à partir d'un **ESP32-S3-WROOM-1 (N16R8)**. La fabrication des prototypes en Chine est prévue prochainement. Le soutien de la communauté contribue à accélérer cette étape.
+Le schéma matériel et le prototype de circuit imprimé sont déjà conçus à partir d'un **ESP32-S3-WROOM-1 (N16R8)**.
 
 ---
 
