@@ -23,7 +23,7 @@ The hardware schematic and the first PCB prototype are already designed around a
 
 ## 🎯 What problem does it solve ?
 
-Traditional pool installations often rely on:
+Traditional pool installations often rely on:  
 ⛔ Filtration timers that ignore water temperature  
 ⛔ No alert system for leaks in the technical room  
 ⛔ No automatic monitoring of filter pressure or clogging  
