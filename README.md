@@ -24,13 +24,12 @@ The hardware schematic and the first PCB prototype are already designed around a
 ## 🎯 What problem does it solve ?
 
 Traditional pool installations often rely on:
-
-- ⛔ Filtration timers that ignore water temperature
-- ⛔ No alert system for leaks in the technical room
-- ⛔ No automatic monitoring of filter pressure or clogging 
-- ⛔ No weather-based automation
-- ⛔ No customizable
-- ⛔ No MQTT compatible
+⛔ Filtration timers that ignore water temperature  
+⛔ No alert system for leaks in the technical room  
+⛔ No automatic monitoring of filter pressure or clogging  
+⛔ No weather-based automation  
+⛔ No customizable  
+⛔ No MQTT compatible  
 
 **PoolConnect** combines intelligence, connectivity, and safety in a fully open-source solution.
 
