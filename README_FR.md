@@ -22,6 +22,7 @@ Le schéma matériel et le prototype de circuit imprimé sont déjà conçus à 
 ## 🎯 Quel problème résout-il ?
 
 Les installations de piscines traditionnelles reposent souvent sur :  
+
 -⛔ Minuteurs de filtration qui ignorent la température de l'eau  
 -⛔ Aucun système d'alerte pour les fuites dans le local technique  
 -⛔ Aucun contrôle automatique de la pression du filtre ni du colmatage  
