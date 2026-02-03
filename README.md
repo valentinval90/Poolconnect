@@ -97,8 +97,8 @@ The firmware is currently in prototype/testing phase:
 - Web interface ✔  
 - Hardware layer ✔  
 - MQTT + Home Assistant integration ✔  
-- Pressure sensor, leak detection, and alarms ✔
-- OTA firmware updates
+- Pressure sensor, leak detection, and alarms ✔  
+- OTA firmware updates ✔
 - More features coming soon... 
 
 ---
