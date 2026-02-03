@@ -93,33 +93,16 @@ Les installations de piscines traditionnelles reposent souvent sur :
 Le firmware est actuellement en phase de prototypage/test :  
 - Surveillance de la température ✔  
 - Première version de la logique de filtration ✔  
-- Interface web basique ✔  
+- Interface web ✔  
 - Couche d'abstraction matérielle ✔  
 - Intégration MQTT + Home Assistant ✔  
 - Capteur de pression, détection de fuites et alarmes ✔    
-- Et d’autres fonctionnalités à venir  
+- MAJ OTA
 
 ---
 <img width="446" height="538" alt="image" src="https://github.com/user-attachments/assets/f8c1eac2-8a08-45c3-abbe-f5ee3647511e" />
 <img width="1892" height="902" alt="image" src="https://github.com/user-attachments/assets/56ebca87-8b25-4ff3-93ae-a713702825d7" />
-- Pour plus de visuel allez dans le dossier img du github.
-## 🚀 Feuille de route
-
-### 🟢 Matériel
-- Schéma V1  
-- Prototype de circuit imprimé  
-- PCB V2  
-- Premier lot de prototype chez [JLCPCB](https://cart.jlcpcb.com/fr/quote?from=valentin.)  
-- Intégration dans coffret électrique de piscine ([exemple Amazon](https://amzn.eu/d/afS3UlJ))  
-
-### 🟠 Logiciel
-- Logique de surveillance de pression complète  
-- Alarmes de détection de fuites  
-- Tableau de bord dynamique (web)  
-- Interface utilisateur adaptative pour mobile  
-- Découverte automatique dans Home Assistant  
-- Mises à jour OTA  
-
+- Pour plus de visuel allez dans le dossier img du github. 
 ---
 
 ## 🤝 Contribuer
