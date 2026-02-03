@@ -1,6 +1,7 @@
 /* 
  * POOL CONNECT - VARIABLES GLOBALES
  * Déclarations extern de toutes les variables globales
+ * globals.h   V0.3
  */
 
 #ifndef GLOBALS_H
@@ -46,6 +47,11 @@ extern const int relayPins[NUM_RELAYS];
 
 extern SystemConfig sysConfig;
 extern CalibrationConfig calibConfig;
+extern UserPreferences userPrefs;
+
+// ============================================================================
+// FIN AJOUT PHASE 1
+// ============================================================================
 
 // ============================================================================
 // UTILISATEURS

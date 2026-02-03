@@ -1,6 +1,7 @@
 /* 
  * POOL CONNECT - GLOBALS IMPLEMENTATION
  * Définitions réelles des variables globales
+ * globals_impl.h   V0.3
  */
 
 #include "globals.h"
@@ -39,6 +40,12 @@ CalibrationConfig calibConfig = {
   false, false, 0.0, 10.0, 10.0, 30.0, 30.0,  // Temp
   false, false, 0.0, 1.0, 1.0, 3.0, 3.0       // Pressure
 };
+
+// ============================================================================
+// Préférences utilisateur avec valeurs par défaut
+// ============================================================================
+
+UserPreferences userPrefs;  // Utilise le constructeur par défaut de la struct
 
 // ============================================================================
 // CONSTANTES (définies ici, déclarées dans config.h)

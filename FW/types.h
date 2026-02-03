@@ -1,6 +1,7 @@
 /* 
  * POOL CONNECT - TYPES & STRUCTURES
  * Définitions de toutes les structures de données
+ * types.h   V0.3
  */
 
 #ifndef TYPES_H
@@ -35,6 +36,20 @@ struct CalibrationConfig {
   float pressurePoint1Real;
   float pressurePoint2Raw;
   float pressurePoint2Real;
+};
+
+struct UserPreferences {
+  String language;              // "fr" ou "en"
+  String temperatureUnit;       // "celsius" ou "fahrenheit"
+  String pressureUnit;          // "bar" ou "psi"
+  String theme;                 // "light" ou "dark"
+  int chartUpdateInterval;      // En millisecondes (300000 = 5min par défaut)
+  
+  UserPreferences() : language("fr"), 
+                      temperatureUnit("celsius"),
+                      pressureUnit("bar"),
+                      theme("light"),
+                      chartUpdateInterval(300000) {}
 };
 
 struct User {

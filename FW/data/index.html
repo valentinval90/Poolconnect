@@ -1,12 +1,37 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
   <title>Pool Connect</title>
   <link rel="stylesheet" href="/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  
+  <!-- FONDATIONS (en premier) -->
+  <script src="/modules/translations.js"></script>
+  <script src="/modules/units.js"></script>
+  <script src="/modules/theme.js"></script>
+  <script src="/modules/ota.js"></script>
+  <script src="/modules/preferences.js"></script>
+  
+  <!-- AUTHENTIFICATION -->
+  <script src="/modules/auth.js"></script>
+  
+  <!-- MODULES DE FONCTIONNALITÉS -->
+  <script src="/modules/chart.js"></script>
+  <script src="/modules/dashboard.js"></script>
+  <script src="/modules/control.js"></script>
+  <script src="/modules/calibration.js"></script>
+  <script src="/modules/timers.js"></script>
+  <script src="/modules/backup.js"></script>
+  <script src="/modules/scenarios.js"></script>
+  <script src="/modules/settings.js"></script>
+  <script src="/modules/users.js"></script>
+  
+  <!-- APP.JS EN DERNIER (IMPORTANT !) -->
+  <script src="/app.js"></script>
+
 </head>
 
 <body>
@@ -14,26 +39,34 @@
   <!-- LOGIN SCREEN -->
   <div class="login-container" id="loginContainer">
     <div class="login-box">
+      <!-- Sélecteur de langue pour le login -->
+      <div class="language-selector-login">
+        <select id="languageSelectorLogin" onchange="setLanguage(this.value)">
+          <option value="fr">Français</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+      
       <div class="login-header">
-		<img src="logo.png" class="logo-img">
+        <img src="/img/logo.png" class="logo-img">
       </div>
 
       <form class="login-form" id="loginForm">
         <div class="form-group">
-          <label for="username">👤 Nom d'utilisateur</label>
-          <input type="text" id="username" placeholder="Entrez votre identifiant" required autocomplete="username">
+          <label for="username" data-i18n="login_username">👤 Nom d'utilisateur</label>
+          <input type="text" id="username" data-i18n-placeholder="login_username_placeholder" placeholder="Entrez votre identifiant" required autocomplete="username">
         </div>
 
         <div class="form-group">
-          <label for="loginPassword">🔒 Mot de passe</label>
-          <input type="password" id="loginPassword" placeholder="Entrez votre mot de passe" required autocomplete="current-password">
+          <label for="loginPassword" data-i18n="login_password">🔒 Mot de passe</label>
+          <input type="password" id="loginPassword" data-i18n-placeholder="login_password_placeholder" placeholder="Entrez votre mot de passe" required autocomplete="current-password">
         </div>
 
-        <button type="submit" class="login-btn">
+        <button type="submit" class="login-btn" data-i18n="login_button">
           Se connecter
         </button>
 
-        <div class="login-error" id="loginError">
+        <div class="login-error" id="loginError" data-i18n="login_error">
           ❌ Identifiants incorrects. Veuillez réessayer.
         </div>
       </form>
@@ -46,25 +79,24 @@
     <!-- SIDEBAR -->
     <div class="sidebar">
       <div class="logo">
-		<img src="logo.png" class="logo-img">
+		<img src="/img/logo.png" class="logo-img">
         <div class="led-indicator" id="ledStatus">
           <div class="led-dot"></div>
-          <span>Système actif</span>
+          <span data-i18n="system_active">Système actif</span>
         </div>
-      </div>
-      
+      </div>            
       <div class="info-card">
-        <div class="datetime" id="datetime">🕒 Chargement...</div>
+        <div class="datetime" id="datetime">🕒 <span data-i18n="loading">Chargement...</span></div>
         <div class="temperature" id="temperature">--°C</div>
-        <div class="temp-label">Température de l'eau</div>
+        <div class="temp-label" data-i18n="water_temp_label">Température de l'eau</div>
         
         <div class="filtration-info">
           <div class="filtration-row">
-            <span>⏱️ Temps recommandé</span>
+            <span>⏱️ <span data-i18n="recommended_time">Temps recommandé</span></span>
             <span class="value" id="tempsFiltrationRecommande">--</span>
           </div>
           <div class="filtration-row">
-            <span>⚙️ Temps en cours</span>
+            <span>⚙️ <span data-i18n="current_time">Temps en cours</span></span>
             <span class="value" id="tempsFiltrationActuel">--</span>
           </div>
         </div>
@@ -74,15 +106,15 @@
       <div class="nav-tabs">
         <button class="nav-tab active" onclick="showTab('dashboard')">
           <span class="icon">🏠</span>
-          <span>Accueil</span>
+          <span data-i18n="nav_home">Accueil</span>
         </button>
         <button class="nav-tab" onclick="showTab('control')">
           <span class="icon">🎮</span>
-          <span>Contrôle</span>
+          <span data-i18n="nav_control">Contrôle</span>
         </button>
         <button class="nav-tab" onclick="showTab('timers')">
           <span class="icon">⏰</span>
-          <span>Timers</span>
+          <span data-i18n="nav_timers">Timers</span>
         </button>
 		<button class="nav-tab" onclick="showTab('calibration')">
 		  <span class="icon">🎯</span>
@@ -90,16 +122,16 @@
 		</button>
         <button class="nav-tab" onclick="showTab('settings')">
           <span class="icon">⚙️</span>
-          <span>Paramètres</span>
+          <span data-i18n="nav_settings">Paramètres</span>
         </button>
         <button class="nav-tab" onclick="showTab('users')" id="usersTab" style="display: none;">
           <span class="icon">👥</span>
-          <span>Utilisateurs</span>
+          <span data-i18n="nav_users">Utilisateurs</span>
         </button>
       </div>
         
-      <button class="btn btn-secondary" style="width: 100%; margin-bottom: 10px;" onclick="changePassword()">🔒 Changer mot de passe</button>
-      <button class="logout-btn" id="logoutBtn">🚪 Déconnexion</button>
+      <button class="btn btn-secondary" style="width: 100%; margin-bottom: 10px;" onclick="PoolUsers.changePassword()">🔒 <span data-i18n="change_password">Changer mot de passe</span></button>
+      <button class="logout-btn" id="logoutBtn">🚪 <span data-i18n="logout">Déconnexion</span></button>
     </div>
 
     <!-- MAIN CONTENT -->
@@ -107,7 +139,7 @@
       
       <!-- DASHBOARD TAB -->
       <div id="tab-dashboard" class="tab-content active">
-        <h1 class="page-title">🏠 Tableau de bord</h1>
+        <h1 class="page-title">🏠 <span data-i18n="dashboard_title">Tableau de bord</span></h1>
         
         <div class="dashboard-grid">
           
@@ -115,7 +147,7 @@
           <div class="stat-card">
             <div class="stat-icon">🌡️</div>
             <div class="stat-content">
-              <div class="stat-label">Température Eau</div>
+              <div class="stat-label" data-i18n="water_temp">Température Eau</div>
               <div class="stat-value" id="dash-water-temp">--°C</div>
             </div>
           </div>
@@ -123,7 +155,7 @@
           <div class="stat-card">
             <div class="stat-icon">💪</div>
             <div class="stat-content">
-              <div class="stat-label">Pression Filtre</div>
+              <div class="stat-label" data-i18n="filter_pressure">Pression Filtre</div>
               <div class="stat-value" id="dash-pressure">-- bar</div>
             </div>
           </div>
@@ -131,7 +163,7 @@
           <div class="stat-card">
             <div class="stat-icon">☀️</div>
             <div class="stat-content">
-              <div class="stat-label">Température Ext.</div>
+              <div class="stat-label" data-i18n="ext_temp">Température Ext.</div>
               <div class="stat-value" id="dash-ext-temp">--°C</div>
             </div>
           </div>
@@ -139,7 +171,7 @@
           <div class="stat-card" id="leak-card">
             <div class="stat-icon">💧</div>
             <div class="stat-content">
-              <div class="stat-label">État Système</div>
+              <div class="stat-label" data-i18n="system_status">État Système</div>
               <div class="stat-value" id="dash-leak">OK</div>
             </div>
           </div>
@@ -149,33 +181,33 @@
         <!-- Equipment Status -->
         <div class="card">
           <div class="card-header">
-            <h2>⚡ État des équipements</h2>
+            <h2>⚡ <span data-i18n="equipment_status">État des équipements</span></h2>
           </div>
           <div class="equipment-status">
             <div class="equipment-item">
               <span class="equipment-icon">💧</span>
-              <span class="equipment-name">Pompe</span>
-              <span class="equipment-state" id="eq-pompe">Arrêtée</span>
+              <span class="equipment-name" data-i18n="eq_pump">Pompe</span>
+              <span class="equipment-state" id="eq-pompe" data-i18n="eq_stopped">Arrêtée</span>
             </div>
             <div class="equipment-item">
               <span class="equipment-icon">⚡</span>
-              <span class="equipment-name">Électrolyseur</span>
-              <span class="equipment-state" id="eq-electro">Arrêté</span>
+              <span class="equipment-name" data-i18n="eq_electrolyzer">Électrolyseur</span>
+              <span class="equipment-state" id="eq-electro" data-i18n="eq_stopped">Arrêté</span>
             </div>
             <div class="equipment-item">
               <span class="equipment-icon">💡</span>
-              <span class="equipment-name">Lampe</span>
-              <span class="equipment-state" id="eq-lampe">Éteinte</span>
+              <span class="equipment-name" data-i18n="eq_light">Lampe</span>
+              <span class="equipment-state" id="eq-lampe" data-i18n="eq_off">Éteinte</span>
             </div>
             <div class="equipment-item">
               <span class="equipment-icon">🚰</span>
-              <span class="equipment-name">Électrovalve</span>
-              <span class="equipment-state" id="eq-valve">Fermée</span>
+              <span class="equipment-name" data-i18n="eq_valve">Électrovalve</span>
+              <span class="equipment-state" id="eq-valve" data-i18n="eq_closed">Fermée</span>
             </div>
             <div class="equipment-item">
               <span class="equipment-icon">🔥</span>
-              <span class="equipment-name">Pompe à Chaleur</span>
-              <span class="equipment-state" id="eq-pac">Arrêtée</span>
+              <span class="equipment-name" data-i18n="eq_heatpump">Pompe à Chaleur</span>
+              <span class="equipment-state" id="eq-pac" data-i18n="eq_stopped">Arrêtée</span>
             </div>
           </div>
         </div>
@@ -183,78 +215,106 @@
         <!-- Active Timers -->
         <div class="card">
           <div class="card-header">
-            <h2>⏰ Timers actifs</h2>
+            <h2>⏰ <span data-i18n="active_timers">Timers actifs</span></h2>
             <span class="badge success" id="active-timers-count">0</span>
           </div>
           <div id="active-timers-list">
-            <p style="text-align: center; color: #999; padding: 20px;">Aucun timer actif</p>
+            <p style="text-align: center; color: #999; padding: 20px;" data-i18n="no_active_timer">Aucun timer actif</p>
           </div>
         </div>
 
         <!-- Recent History -->
         <div class="card">
           <div class="card-header">
-            <h2>📊 Historique récent</h2>
+            <h2>📊 <span data-i18n="recent_history">Historique récent</span></h2>
           </div>
           <div class="history-list" id="dash-history">
-            <p style="text-align: center; color: #999; padding: 20px;">Chargement...</p>
+            <p style="text-align: center; color: #999; padding: 20px;"><span data-i18n="loading">Chargement...</span></p>
           </div>
         </div>
 
-        <!-- GRAPHIQUE JOURNALIER -->
+<!-- GRAPHIQUE JOURNALIER - NOUVELLE VERSION ESP32 -->
         <div class="card">
           <div class="card-header">
-            <h2>📈 Graphique Journalier</h2>
+            <h2>📈 <span data-i18n="daily_chart">Graphique Journalier</span></h2>
             <div style="display: flex; gap: 10px; align-items: center;">
-              <button class="btn btn-sm" onclick="refreshChart()">🔄 Actualiser</button>
-              <span class="badge success" id="chart-points">0 points</span>
+              <span class="badge success">
+                <span id="chart-points">0 points</span>
+              </span>
             </div>
           </div>
+
+          <!-- Navigation par date - TOUT SUR UNE LIGNE -->
+          <div style="padding: 15px; background: #f8f9fa; border-bottom: 1px solid #e0e0e0;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <!-- Navigation -->
+              <button type="button" class="btn" onclick="PoolChart.navigateDayOffset(-1)" style="padding: 6px 12px;">
+                ◀️
+              </button>
+              
+              <input type="date" 
+                     id="chart-date-selector" 
+                     class="form-control"
+                     style="width: 160px; text-align: center; font-size: 15px; font-weight: 600; padding: 6px 10px;"
+                     onchange="PoolChart.onDateSelected()">
+              
+              <button type="button" class="btn" onclick="PoolChart.navigateDayOffset(1)" style="padding: 6px 12px;">
+                ▶️
+              </button>
+              
+              <button type="button" class="btn btn-primary" onclick="PoolChart.loadToday()" style="padding: 6px 16px; margin-left: 10px;">
+                📆 <span data-i18n="today">Aujourd'hui</span>
+              </button>
+              
+              <!-- Info période -->
+              <div style="flex: 1; text-align: right; min-width: 200px;">
+                <span id="chart-date-info" style="font-size: 13px; color: #666;">
+                  <span data-i18n="loading_data">Chargement...</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Zone du graphique -->
           <div style="position: relative; height: 400px; padding: 20px;">
             <canvas id="dailyChart"></canvas>
           </div>
-          <div class="chart-legend">
-            <div class="legend-item"><span class="dot" style="background: #3498db;"></span> Température Eau (°C)</div>
-            <div class="legend-item"><span class="dot" style="background: #27ae60;"></span> Pression (bar x10)</div>
-            <div class="legend-item"><span class="dot" style="background: #e67e22;"></span> Volet Ouvert</div>
-            <div class="legend-item"><span class="dot" style="background: #00bcd4;"></span> Électrovalve</div>
-            <div class="legend-item"><span class="dot" style="background: #e74c3c;"></span> PAC Active</div>
-            <div class="legend-item"><span class="dot" style="background: #9b59b6;"></span> Timers Actifs</div>
+		  
+          <!-- Actions sur les données -->
+          <div style="padding: 15px; border-top: 1px solid #e0e0e0;">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+              <button class="btn btn-sm" onclick="PoolChart.exportCurrentDayCSV()">
+                📥 <span data-i18n="export_csv">Exporter CSV</span>
+              </button>
+              <button class="btn btn-sm" onclick="PoolChart.showStorageInfo()">
+                💾 <span data-i18n="storage_info">Info stockage</span>
+              </button>
+              <button class="btn btn-sm" onclick="PoolChart.showAvailableDates()">
+                📋 <span data-i18n="available_dates">Dates disponibles</span>
+              </button>
+              <button class="btn btn-sm" onclick="PoolChart.calculateChartStats()">
+                📊 <span data-i18n="statistics">Statistiques</span>
+              </button>
+            </div>
           </div>
-		  <div class="chart-controls" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-			  <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
-				<button class="btn btn-sm" onclick="exportChartDataCSV()">📥 Export CSV</button>
-				<button class="btn btn-sm" onclick="calculateChartStats()">📊 Statistiques</button>
-				<button class="btn btn-sm" onclick="predictTemperature(2)">🔮 Prédiction 2h</button>
-				<button class="btn btn-sm" onclick="addChartEvent(prompt('Nom événement:'), '#e74c3c')">📌 Marquer événement</button>
-				<button class="btn btn-sm" onclick="zoomToTimeRange(6, 12)">🔍 Zoom 6h-12h</button>
-				<button class="btn btn-sm" onclick="zoomToTimeRange(12, 18)">🔍 Zoom 12h-18h</button>
-				<button class="btn btn-sm" onclick="zoomToTimeRange(18, 23)">🔍 Zoom 18h-23h</button>
-				<button class="btn btn-sm" onclick="resetZoom()">↩️ Vue complète</button>
-				<button class="btn btn-sm" onclick="loadComparisonData(1)">📅 Comparer hier</button>
-				<button class="btn btn-sm" onclick="loadComparisonData(7)">📅 Comparer -7j</button>
-				<button class="btn btn-sm" onclick="clearComparison()">❌ Effacer comparaison</button>
-				<button class="btn btn-sm" onclick="addMovingAverage(30)">📈 Moyenne 30min</button>
-			  </div>
-		  </div>
         </div>
 		
 	  </div>
       <!-- CONTROL TAB -->
       <div id="tab-control" class="tab-content">
-        <h1 class="page-title">🎮 Contrôle des équipements</h1>
+        <h1 class="page-title">🎮 <span data-i18n="control_title">Contrôle manuel</span></h1>
 
         <div class="control-grid">
           
           <div class="control-card">
             <div class="control-header">
               <span class="control-icon">💧</span>
-              <h3>Pompe de Filtration</h3>
+              <h3 data-i18n="pump_control">Pompe de filtration</h3>
             </div>
             <div class="control-body">
-              <p>Filtration et circulation de l'eau</p>
+              <p data-i18n="pump_desc">Filtration et circulation de l'eau</p>
               <label class="switch-large">
-                <input type="checkbox" id="ctrl-relay0" onchange="toggleRelay(0, this.checked)">
+                <input type="checkbox" id="ctrl-relay0" onchange="PoolControl.toggleRelay(0, this.checked)">
                 <span class="slider-large"></span>
               </label>
             </div>
@@ -263,12 +323,12 @@
           <div class="control-card">
             <div class="control-header">
               <span class="control-icon">⚡</span>
-              <h3>Électrolyseur</h3>
+              <h3 data-i18n="electrolyzer_control">Électrolyseur</h3>
             </div>
             <div class="control-body">
-              <p>Production de chlore automatique</p>
+              <p data-i18n="electrolyzer_desc">Production de chlore automatique</p>
               <label class="switch-large">
-                <input type="checkbox" id="ctrl-relay1" onchange="toggleRelay(1, this.checked)">
+                <input type="checkbox" id="ctrl-relay1" onchange="PoolControl.toggleRelay(1, this.checked)">
                 <span class="slider-large"></span>
               </label>
             </div>
@@ -277,12 +337,12 @@
           <div class="control-card">
             <div class="control-header">
               <span class="control-icon">💡</span>
-              <h3>Éclairage</h3>
+              <h3 data-i18n="light_control">Éclairage</h3>
             </div>
             <div class="control-body">
-              <p>Lampe LED de la piscine</p>
+              <p data-i18n="light_desc">Lampe LED de la piscine</p>
               <label class="switch-large">
-                <input type="checkbox" id="ctrl-relay2" onchange="toggleRelay(2, this.checked)">
+                <input type="checkbox" id="ctrl-relay2" onchange="PoolControl.toggleRelay(2, this.checked)">
                 <span class="slider-large"></span>
               </label>
             </div>
@@ -291,12 +351,12 @@
           <div class="control-card">
             <div class="control-header">
               <span class="control-icon">🚰</span>
-              <h3>Électrovalve</h3>
+              <h3 data-i18n="valve_control">Électrovalve</h3>
             </div>
             <div class="control-body">
-              <p>Contrôle du remplissage d'eau</p>
+              <p data-i18n="valve_desc">Contrôle du remplissage d'eau</p>
               <label class="switch-large">
-                <input type="checkbox" id="ctrl-relay3" onchange="toggleRelay(3, this.checked)">
+                <input type="checkbox" id="ctrl-relay3" onchange="PoolControl.toggleRelay(3, this.checked)">
                 <span class="slider-large"></span>
               </label>
             </div>
@@ -305,12 +365,12 @@
           <div class="control-card">
             <div class="control-header">
               <span class="control-icon">🔥</span>
-              <h3>Pompe à Chaleur</h3>
+              <h3 data-i18n="heatpump_control">Pompe à Chaleur</h3>
             </div>
             <div class="control-body">
-              <p>Chauffage de l'eau</p>
+              <p data-i18n="heatpump_desc">Chauffage de l'eau</p>
               <label class="switch-large">
-                <input type="checkbox" id="ctrl-relay4" onchange="toggleRelay(4, this.checked)">
+                <input type="checkbox" id="ctrl-relay4" onchange="PoolControl.toggleRelay(4, this.checked)">
                 <span class="slider-large"></span>
               </label>
             </div>
@@ -319,22 +379,22 @@
           <div class="control-card sensor-card">
             <div class="control-header">
               <span class="control-icon">📊</span>
-              <h3>Capteurs</h3>
+              <h3 data-i18n="sensors">Capteurs</h3>
             </div>
             <div class="control-body">
               <div class="sensor-grid">
                 <div class="sensor-item">
-                  <span>🎚️ Volet</span>
+                  <span>🎚️ <span data-i18n="sensor_cover">Volet</span></span>
                   <strong id="ctrl-volet">--</strong>
                 </div>
                 <div class="sensor-item">
-                  <span>💧 Fuite</span>
+                  <span>💧 <span data-i18n="sensor_leak">Fuite</span></span>
                   <strong id="ctrl-fuite">--</strong>
                 </div>
                 <div class="sensor-item">
-                  <span>📊 Buzzer</span>
+                  <span>📊 <span data-i18n="sensor_buzzer">Buzzer</span></span>
                   <label class="switch">
-                    <input type="checkbox" checked id="ctrl-buzzer" onchange="toggleBuzzer(this.checked)">
+                    <input type="checkbox" checked id="ctrl-buzzer" onchange="PoolControl.toggleBuzzer(this.checked)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -347,24 +407,24 @@
 
       <!-- TIMERS TAB - VERSION FLEXIBLE v4.0 -->
       <div id="tab-timers" class="tab-content">
-        <h1 class="page-title">⏰ Gestion des Timers Flexibles</h1>
+        <h1 class="page-title">⏰ <span data-i18n="timers_title">Gestion des timers</span></h1>
 
         <div class="timers-layout-flex">         
           <!-- Liste des timers -->
           <div class="card">
             <div class="card-header">
-				<h2>📋 Timers configurés</h2>
+				<h2>📋 <span data-i18n="timers_configured">Timers configurés</span></h2>
 				<div style="display: flex; gap: 10px; align-items: center;">
-					<button class="btn" onclick="showScenariosModal()">🎯 Scénarios</button>
+					<button class="btn" onclick="PoolScenarios.showScenariosModal()">🎯 <span data-i18n="scenarios">Scénarios</span></button>
 					<span class="badge success" id="timer-count-badge">0</span>
 					<button class="btn btn-success" onclick="showTimerEditor(null)">
-					  ➕ Nouveau Timer
+					  ➕ <span data-i18n="new_timer">Nouveau Timer</span>
 					</button>
 				</div>
 			</div>
           </div>
           <div class="timer-flex-list" id="timerFlexList">
-              <p style="text-align: center; color: #999; padding: 20px;">Aucun timer configuré</p>
+              <p style="text-align: center; color: #999; padding: 20px;" data-i18n="no_timers">Aucun timer configuré</p>
           </div>
         </div>
 
@@ -372,11 +432,11 @@
 
 	  <!-- CALIBRATION TAB -->
 	  <div id="tab-calibration" class="tab-content">
-		  <h1 class="page-title">🎯 Étalonnage des capteurs</h1>
+		  <h1 class="page-title">🎯 <span data-i18n="calibration_title">Étalonnage des capteurs</span></h1>
 		  <!-- Vue d'ensemble -->
 		  <div class="card">
 			<div class="card-header">
-			  <h2>📊 État des étalonnages</h2>
+			  <h2>📊 <span data-i18n="calib_status">État des étalonnages</span></h2>
 			</div>
 			
 			<div class="calibration-overview">
@@ -384,18 +444,18 @@
 			  <div class="calib-sensor-card">
 				<div class="calib-sensor-icon">🌡️</div>
 				<div class="calib-sensor-info">
-				  <h3>Température de l'eau</h3>
-				  <div class="calib-status inactive" id="calib-temp-status">❌ Désactivé</div>
+				  <h3 data-i18n="calib_water_temp">Température de l'eau</h3>
+				  <div class="calib-status inactive" id="calib-temp-status">❌ <span data-i18n="disabled">Désactivé</span></div>
 				  <div class="calib-current-value">
-					Valeur actuelle: <strong id="calib-current-temp-raw">--</strong> °C
+					<span data-i18n="current_value">Valeur actuelle</span>: <strong id="calib-current-temp-raw">--</strong> <span id="calib-temp-unit">°C</span>
 				  </div>
 				</div>
 				<div class="calib-sensor-actions">
-				  <button class="btn btn-success" onclick="startCalibrationAssistant('temp')">
-					🚀 Lancer assistant
+				  <button class="btn btn-success" onclick="PoolCalibration.startCalibrationAssistant('temp')">
+					🚀 <span data-i18n="launch_assistant">Lancer assistant</span>
 				  </button>
-				  <button class="btn btn-danger" onclick="disableCalibration('temp')">
-					❌ Désactiver
+				  <button class="btn btn-danger" onclick="PoolCalibration.disableCalibration('temp')">
+					❌ <span data-i18n="disable">Désactiver</span>
 				  </button>
 				</div>
 			  </div>
@@ -404,18 +464,18 @@
 			  <div class="calib-sensor-card">
 				<div class="calib-sensor-icon">💪</div>
 				<div class="calib-sensor-info">
-				  <h3>Pression de filtration</h3>
-				  <div class="calib-status inactive" id="calib-pressure-status">❌ Désactivé</div>
+				  <h3 data-i18n="filter_pressure">Pression de filtration</h3>
+				  <div class="calib-status inactive" id="calib-pressure-status">❌ <span data-i18n="disabled">Désactivé</span></div>
 				  <div class="calib-current-value">
-					Valeur actuelle: <strong id="calib-current-pressure-raw">--</strong> bar
+					<span data-i18n="current_value">Valeur actuelle</span>: <strong id="calib-current-pressure-raw">--</strong> <span id="calib-pressure-unit">bar</span>
 				  </div>
 				</div>
 				<div class="calib-sensor-actions">
-				  <button class="btn btn-success" onclick="startCalibrationAssistant('pressure')">
-					🚀 Lancer assistant
+				  <button class="btn btn-success" onclick="PoolCalibration.startCalibrationAssistant('pressure')">
+					🚀 <span data-i18n="launch_assistant">Lancer assistant</span>
 				  </button>
-				  <button class="btn btn-danger" onclick="disableCalibration('pressure')">
-					❌ Désactiver
+				  <button class="btn btn-danger" onclick="PoolCalibration.disableCalibration('pressure')">
+					❌ <span data-i18n="disable">Désactiver</span>
 				  </button>
 				</div>
 			  </div>
@@ -425,35 +485,35 @@
 		  <!-- Guide rapide -->
 		  <div class="card">
 			<div class="card-header">
-			  <h2>ℹ️ Guide d'étalonnage</h2>
+			  <h2>ℹ️ <span data-i18n="calib_guide">Guide d'étalonnage</span></h2>
 			</div>
 			<div class="guide-content">
 			  <div class="guide-step">
 				<span class="guide-number">1</span>
 				<div class="guide-text">
-				  <strong>Préparez votre équipement de référence</strong>
-				  <p>Thermomètre calibré ou manomètre de précision</p>
+				  <strong data-i18n="calib_step1_title">Préparez votre équipement de référence</strong>
+				  <p data-i18n="calib_step1_desc">Thermomètre calibré ou manomètre de précision</p>
 				</div>
 			  </div>
 			  <div class="guide-step">
 				<span class="guide-number">2</span>
 				<div class="guide-text">
-				  <strong>Lancez l'assistant d'étalonnage</strong>
-				  <p>Suivez les instructions étape par étape</p>
+				  <strong data-i18n="calib_step2_title">Lancez l'assistant d'étalonnage</strong>
+				  <p data-i18n="calib_step2_desc">Suivez les instructions étape par étape</p>
 				</div>
 			  </div>
 			  <div class="guide-step">
 				<span class="guide-number">3</span>
 				<div class="guide-text">
-				  <strong>Prenez vos mesures</strong>
-				  <p>Comparez avec votre équipement de référence</p>
+				  <strong data-i18n="calib_step3_title">Prenez vos mesures</strong>
+				  <p data-i18n="calib_step3_desc">Comparez avec votre équipement de référence</p>
 				</div>
 			  </div>
 			  <div class="guide-step">
 				<span class="guide-number">4</span>
 				<div class="guide-text">
-				  <strong>Validez et testez</strong>
-				  <p>Vérifiez la précision après étalonnage</p>
+				  <strong data-i18n="calib_step4_title">Validez et testez</strong>
+				  <p data-i18n="calib_step4_desc">Vérifiez la précision après étalonnage</p>
 				</div>
 			  </div>
 			</div>
@@ -462,51 +522,51 @@
 
       <!-- SETTINGS TAB -->
       <div id="tab-settings" class="tab-content">
-        <h1 class="page-title">⚙️ Paramètres du système</h1>
+        <h1 class="page-title">⚙️ <span data-i18n="settings_title">Paramètres système</span></h1>
 
         <div class="settings-grid">
 
           <!-- MQTT Configuration -->
           <div class="card">
             <div class="card-header">
-              <h2>📡 Configuration MQTT</h2>
-              <span class="badge" id="mqtt-status-badge">Déconnecté</span>
+              <h2>📡 <span data-i18n="mqtt_config">Configuration MQTT</span></h2>
+              <span class="badge" id="mqtt-status-badge"><span data-i18n="disconnected">Déconnecté</span></span>
             </div>
 
             <form id="mqttForm">
               <div class="form-row">
                 <div class="form-group">
-                  <label for="mqtt-server">🌐 Serveur</label>
+                  <label for="mqtt-server">🌐 <span data-i18n="mqtt_server">Serveur</span></label>
                   <input type="text" id="mqtt-server" placeholder="192.168.1.100">
                 </div>
 
                 <div class="form-group">
-                  <label for="mqtt-port">🔌 Port</label>
+                  <label for="mqtt-port">🔌 <span data-i18n="mqtt_port">Port</span></label>
                   <input type="number" id="mqtt-port" placeholder="1883" value="1883">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="mqtt-user">👤 Utilisateur</label>
+                  <label for="mqtt-user">👤 <span data-i18n="mqtt_user">Utilisateur</span></label>
                   <input type="text" id="mqtt-user" placeholder="username">
                 </div>
 
                 <div class="form-group">
-                  <label for="mqtt-password">🔒 Mot de passe</label>
+                  <label for="mqtt-password">🔒 <span data-i18n="mqtt_password">Mot de passe</span></label>
                   <input type="password" id="mqtt-password" placeholder="••••••••">
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="mqtt-topic">📮 Topic</label>
+                <label for="mqtt-topic">📮 <span data-i18n="mqtt_topic">Topic</span></label>
                 <input type="text" id="mqtt-topic" placeholder="pool/control" value="pool/control">
               </div>
 
               <div class="form-actions">
-                <button type="submit" class="btn btn-success">💾 Sauvegarder MQTT</button>
-                <button type="button" class="btn" onclick="testMQTT()">🔌 Tester connexion</button>
-                <button type="button" class="btn" onclick="rediscoverHomeAssistant()">🏠 Republier HA</button>
+                <button type="submit" class="btn btn-success">💾 <span data-i18n="mqtt_save">Sauvegarder MQTT</span></button>
+                <button type="button" class="btn" onclick="PoolSettings.testMQTT()">🔌 <span data-i18n="test_connection">Tester connexion</span></button>
+                <button type="button" class="btn" onclick="PoolSettings.rediscoverHomeAssistant()">🏠 <span data-i18n="republish_ha">Republier HA</span></button>
               </div>
             </form>
           </div>
@@ -514,40 +574,40 @@
           <!-- Weather Configuration -->
           <div class="card">
             <div class="card-header">
-              <h2>🌦️ Configuration Météo</h2>
+              <h2>🌦️ <span data-i18n="weather_config">Configuration Météo</span></h2>
             </div>
 
             <form id="weatherForm">
               <div class="form-group">
-                <label for="weather-api">🔑 Clé API OpenWeatherMap</label>
+                <label for="weather-api">🔑 <span data-i18n="weather_api_key">Clé API OpenWeatherMap</span></label>
                 <input type="text" id="weather-api" placeholder="Votre clé API">
-                <small>Obtenez une clé gratuite sur <a href="https://openweathermap.org/api" target="_blank">openweathermap.org</a></small>
+                <small><span data-i18n="weather_api_key_help">Obtenez une clé gratuite sur</span> <a href="https://openweathermap.org/api" target="_blank">openweathermap.org</a></small>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="weather-lat">📍 Latitude</label>
+                  <label for="weather-lat">📍 <span data-i18n="latitude">Latitude</span></label>
                   <input type="text" id="weather-lat" placeholder="47.666672">
                 </div>
 
                 <div class="form-group">
-                  <label for="weather-lon">📍 Longitude</label>
+                  <label for="weather-lon">📍 <span data-i18n="longitude">Longitude</span></label>
                   <input type="text" id="weather-lon" placeholder="6.85">
                 </div>
               </div>
 
-              <button type="submit" class="btn btn-success btn-block">💾 Sauvegarder Météo</button>
+              <button type="submit" class="btn btn-success btn-block">💾 <span data-i18n="weather_save">Sauvegarder Météo</span></button>
             </form>
           </div>
 
 		  <!-- Configuration Graphique -->
 		  <div class="card">
 			  <div class="card-header">
-				<h2>📊 Configuration Graphique</h2>
+				<h2>📊 <span data-i18n="chart_config">Configuration Graphique</span></h2>
 			  </div>
 
 			  <div class="form-group">
-				<label for="chart-interval-select">⏱️ Intervalle de mise à jour</label>
+				<label for="chart-interval-select">⏱️ <span data-i18n="chart_interval">Intervalle de mise à jour</span></label>
 				<select id="chart-interval-select" style="width: 100%;">
 				  <option value="60000">1 minute (max 1440 points)</option>
 				  <option value="120000">2 minutes (max 720 points)</option>
@@ -557,19 +617,19 @@
 				  <option value="1800000">30 minutes (max 48 points)</option>
 				</select>
 				<small>
-				  Intervalle actuel: <strong id="current-chart-interval">5 minutes</strong>
+				  <span data-i18n="current_interval">Intervalle actuel</span>: <strong id="current-chart-interval">5 minutes</strong>
 				  <br>
-				  ⚠️ Un intervalle court génère plus de points mais consomme plus de mémoire
+				  <span data-i18n="chart_interval_warning">⚠️ Un intervalle court génère plus de points mais consomme plus de mémoire</span>
 				</small>
 			  </div>
 
 			  <div class="info-text" style="margin-top: 15px;">
-				<strong>💡 Conseils:</strong>
+				<strong>💡 <span data-i18n="tips">Conseils</span>:</strong>
 				<ul style="margin-top: 10px; padding-left: 20px;">
-				  <li>1-2 min: Suivi détaillé à court terme</li>
-				  <li>5 min: Équilibre idéal (recommandé)</li>
-				  <li>10-15 min: Économie mémoire</li>
-				  <li>30 min: Vue d'ensemble long terme</li>
+				  <li data-i18n="chart_tip1">1-2 min: Suivi détaillé à court terme</li>
+				  <li data-i18n="chart_tip2">5 min: Équilibre idéal (recommandé)</li>
+				  <li data-i18n="chart_tip3">10-15 min: Économie mémoire</li>
+				  <li data-i18n="chart_tip4">30 min: Vue d'ensemble long terme</li>
 				</ul>
 			  </div>
 		  </div>
@@ -577,83 +637,122 @@
 		  <!-- System Configuration -->
           <div class="card">
             <div class="card-header">
-              <h2>🔧 Configuration Système</h2>
+              <h2>🔧 <span data-i18n="system_config">Configuration Système</span></h2>
             </div>
 
             <form id="systemForm">
               <div class="form-group">
-                <label for="pressure-threshold">💪 Seuil de pression (bar)</label>
+                <label for="pressure-threshold">💪 <span data-i18n="pressure_threshold">Seuil de pression (bar)</span></label>
                 <input type="number" step="0.1" id="pressure-threshold" value="2.0">
-                <small>Alarme si la pression dépasse ce seuil</small>
+                <small data-i18n="pressure_alarm_desc">Alarme si la pression dépasse ce seuil</small>
               </div>
 
               <div class="form-group">
-                <label>📊 Buzzer</label>
+                <label>📊 <span data-i18n="buzzer">Buzzer</span></label>
                 <label class="switch">
                   <input type="checkbox" checked id="buzzer-enabled">
                   <span class="slider"></span>
                 </label>
-                <small>Activer/désactiver le buzzer d'alarme</small>
+                <small data-i18n="buzzer_desc">Activer/désactiver le buzzer d'alarme</small>
               </div>
+			  
+			  <!-- Sélecteurs d'unités -->
+			  <div class="units-selectors" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+				<h4 style="margin-bottom: 15px;">
+				  <span data-i18n="units_preferences">Préférences</span>
+				</h4>
+				
+				<!-- Sélecteur de langue dans la sidebar -->
+				  <div class="language-selector">
+					<label>🌍</label>
+					<select id="languageSelector" onchange="setLanguage(this.value)">
+					  <option value="fr">Français</option>
+					  <option value="en">English</option>
+					</select>
+				  </div>
+			  
+				
+				<!-- Température -->
+				<div class="form-group" style="margin-bottom: 15px;">
+				  <label for="unit-temperature">
+					🌡️ <span data-i18n="temperature_unit">Unité de température</span>
+				  </label>
+				  <select id="unit-temperature" class="form-control" onchange="setTemperatureUnit(this.value)" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ddd;">
+					<option value="celsius">°C (Celsius)</option>
+					<option value="fahrenheit">°F (Fahrenheit)</option>
+				  </select>
+				</div>
+				
+				<!-- Pression -->
+				<div class="form-group">
+				  <label for="unit-pressure">
+					💪 <span data-i18n="pressure_unit">Unité de pression</span>
+				  </label>
+				  <select id="unit-pressure" class="form-control" onchange="setPressureUnit(this.value)" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ddd;">
+					<option value="bar">BAR</option>
+					<option value="psi">PSI</option>
+				  </select>
+				</div>
+			  </div>
 
-              <button type="submit" class="btn btn-success btn-block">💾 Sauvegarder Système</button>
+              <button type="submit" class="btn btn-success btn-block">💾 <span data-i18n="system_save">Sauvegarder Système</span></button>
             </form>
           </div>
 
           <!-- System Info -->
           <div class="card">
             <div class="card-header">
-              <h2>ℹ️ Informations Système</h2>
+              <h2>ℹ️ <span data-i18n="system_info">Informations système</span></h2>
             </div>
             
             <div class="info-grid">
               <div class="info-item">
-                <span class="info-label">Version Firmware</span>
+                <span class="info-label" data-i18n="firmware_version">Version Firmware</span>
                 <span class="info-value" id="sys-version">--</span>
               </div>
               <div class="info-item">
-                <span class="info-label">Adresse IP</span>
+                <span class="info-label" data-i18n="ip_address">Adresse IP</span>
                 <span class="info-value" id="sys-ip">--</span>
               </div>
               <div class="info-item">
-                <span class="info-label">Uptime</span>
+                <span class="info-label" data-i18n="uptime">Uptime</span>
                 <span class="info-value" id="sys-uptime">--</span>
               </div>
               <div class="info-item">
-                <span class="info-label">Mémoire Libre</span>
+                <span class="info-label" data-i18n="free_memory">Mémoire Libre</span>
                 <span class="info-value" id="sys-heap">--</span>
-              </div>
+              </div>			 
             </div>
             
             <div class="form-actions" style="margin-top: 20px;">
-              <button class="btn" onclick="window.location.href='/update'">🔄 Mise à jour OTA</button>
-              <button class="btn btn-danger" onclick="restartSystem()">🔄 Redémarrer</button>
+              <button class="btn" onclick="openOTAModal()">🔄 <span data-i18n="ota_update">Mise à jour OTA</span></button>
+              <button class="btn btn-danger" onclick="PoolSettings.restartSystem()">🔄 <span data-i18n="restart">Redémarrer</span></button>
             </div>
           </div>
 		  
 		  <div class="card">
 			  <div class="card-header">
-				<h2>💾 Sauvegarde & Restauration</h2>
+				<h2>💾 <span data-i18n="backup_restore">Sauvegarde & Restauration</span></h2>
 			  </div>
 			  
 			  <div class="info-text" style="margin-bottom: 20px;">
-				ℹ️ Sauvegardez votre configuration complète (utilisateurs, timers, calibration, etc.)
+				ℹ️ <span data-i18n="backup_info">Sauvegardez votre configuration complète (utilisateurs, timers, calibration, etc.)</span>
 			  </div>
 			  
 			  <div class="form-actions">
-				<button class="btn btn-success" onclick="downloadBackup()">
-				  📥 Télécharger Backup
+				<button class="btn btn-success" onclick="PoolBackup.downloadBackup()">
+				  📥 <span data-i18n="download_backup">Télécharger Backup</span>
 				</button>
-				<button class="btn" onclick="uploadBackup()">
-				  📤 Restaurer Backup
+				<button class="btn" onclick="PoolBackup.uploadBackup()">
+				  📤 <span data-i18n="upload_backup">Restaurer Backup</span>
 				</button>
-				<button class="btn" onclick="saveBackupToESP()">
-				  💾 Sauver sur ESP32
+				<button class="btn" onclick="PoolBackup.saveBackupToESP()">
+				  💾 <span data-i18n="save_esp32">Sauver sur ESP32</span>
 				</button>
 			  </div>
 			  
 			  <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
-				🔄 Backup automatique quotidien activé
+				🔄 <span data-i18n="auto_backup_active">Backup automatique quotidien activé</span>
 			  </p>
 		  </div>
 
@@ -662,47 +761,47 @@
 
       <!-- USERS TAB (Admin only) -->
       <div id="tab-users" class="tab-content">
-        <h1 class="page-title">👥 Gestion des utilisateurs</h1>
+        <h1 class="page-title">👥 <span data-i18n="users_title">Gestion des utilisateurs</span></h1>
 
         <div class="users-layout">
           
           <div class="card">
             <div class="card-header">
-              <h2>👥 Utilisateurs configurés</h2>
+              <h2>👥 <span data-i18n="users_configured">Utilisateurs configurés</span></h2>
               <span class="badge success" id="user-count-badge">0</span>
             </div>
             <div class="users-list" id="usersList">
-              <p style="text-align: center; color: #999; padding: 20px;">Chargement...</p>
+              <p style="text-align: center; color: #999; padding: 20px;"><span data-i18n="loading">Chargement...</span></p>
             </div>
           </div>
 
           <div class="card">
             <div class="card-header">
-              <h2>➕ Nouvel utilisateur</h2>
+              <h2>➕ <span data-i18n="new_user">Nouvel utilisateur</span></h2>
             </div>
 
             <form id="userForm">
               <div class="form-group">
-                <label for="user-username">👤 Nom d'utilisateur</label>
+                <label for="user-username">👤 <span data-i18n="username">Nom d'utilisateur</span></label>
                 <input type="text" id="user-username" placeholder="Ex: john" required>
               </div>
 
               <div class="form-group">
-                <label for="user-password">🔒 Mot de passe</label>
+                <label for="user-password">🔒 <span data-i18n="password">Mot de passe</span></label>
                 <input type="password" id="user-password" placeholder="Minimum 6 caractères" required minlength="6">
               </div>
 
               <div class="form-group">
-                <label for="user-role">🎭 Rôle</label>
+                <label for="user-role">🎭 <span data-i18n="role">Rôle</span></label>
                 <select id="user-role">
-                  <option value="user">Utilisateur</option>
-                  <option value="admin">Administrateur</option>
+                  <option value="user" data-i18n="role_user">Utilisateur</option>
+                  <option value="admin" data-i18n="role_admin">Administrateur</option>
                 </select>
-                <small>Les administrateurs peuvent gérer les utilisateurs</small>
+                <small data-i18n="admin_desc">Les administrateurs peuvent gérer les utilisateurs</small>
               </div>
 
               <button type="submit" class="btn btn-success btn-block">
-                ➕ Ajouter l'utilisateur
+                ➕ <span data-i18n="add_user">Ajouter utilisateur</span>
               </button>
             </form>
           </div>
@@ -721,53 +820,53 @@
 <div class="modal" id="timerEditorModal">
   <div class="modal-content modal-large">
     <div class="modal-header">
-      <h2 id="timerEditorTitle">➕ Nouveau Timer</h2>
+      <h2 id="timerEditorTitle">➕ <span data-i18n="new_timer">Nouveau Timer</span></h2>
       <button class="close-btn" onclick="closeTimerEditor()">✕</button>
     </div>
     
     <div class="modal-body">
       <!-- Onglets -->
       <div class="editor-tabs">
-        <button class="editor-tab active" onclick="showEditorTab('config')">⚙️ Configuration</button>
-        <button class="editor-tab" onclick="showEditorTab('conditions')">🔍 Conditions</button>
-        <button class="editor-tab" onclick="showEditorTab('actions')">🎬 Actions</button>
-        <button class="editor-tab" onclick="showEditorTab('preview')">👁️ Aperçu</button>
+        <button class="editor-tab active" onclick="showEditorTab('config')">⚙️ <span data-i18n="configuration">Configuration</span></button>
+        <button class="editor-tab" onclick="showEditorTab('conditions')">🔍 <span data-i18n="conditions">Conditions</span></button>
+        <button class="editor-tab" onclick="showEditorTab('actions')">🎬 <span data-i18n="actions">Actions</span></button>
+        <button class="editor-tab" onclick="showEditorTab('preview')">👁️ <span data-i18n="preview">Aperçu</span></button>
       </div>
       
       <!-- Onglet Configuration -->
       <div id="editor-config" class="editor-tab-content active">
         <div class="form-group">
-          <label>📝 Nom du Timer</label>
+          <label>📝 <span data-i18n="timer_name">Nom du Timer</span></label>
           <input type="text" id="edit-timer-name" placeholder="Ex: Filtration Été" required>
         </div>
         
         <div class="form-group">
           <label style="display: flex; align-items: center; gap: 10px;">
             <input type="checkbox" id="edit-timer-enabled" checked>
-            <span>✅ Timer activé</span>
+            <span>✅ <span data-i18n="timer_enabled">Timer activé</span></span>
           </label>
         </div>
-        
+		
         <div class="form-group">
-          <label>📅 Jours d'exécution</label>
+          <label>📅 <span data-i18n="execution_days">Jours d'exécution</span></label>
           <div class="days-container">
-            <button type="button" class="day-btn" data-day="0" onclick="toggleDay(this)">Dim</button>
-            <button type="button" class="day-btn active" data-day="1" onclick="toggleDay(this)">Lun</button>
-            <button type="button" class="day-btn active" data-day="2" onclick="toggleDay(this)">Mar</button>
-            <button type="button" class="day-btn active" data-day="3" onclick="toggleDay(this)">Mer</button>
-            <button type="button" class="day-btn active" data-day="4" onclick="toggleDay(this)">Jeu</button>
-            <button type="button" class="day-btn active" data-day="5" onclick="toggleDay(this)">Ven</button>
-            <button type="button" class="day-btn" data-day="6" onclick="toggleDay(this)">Sam</button>
+            <button type="button" class="day-btn" data-day="0" onclick="toggleDay(this)"><span data-i18n="day_sunday">Dim</span></button>
+            <button type="button" class="day-btn active" data-day="1" onclick="toggleDay(this)"><span data-i18n="day_monday">Lun</span></button>
+            <button type="button" class="day-btn active" data-day="2" onclick="toggleDay(this)"><span data-i18n="day_tuesday">Mar</span></button>
+            <button type="button" class="day-btn active" data-day="3" onclick="toggleDay(this)"><span data-i18n="day_wednesday">Mer</span></button>
+            <button type="button" class="day-btn active" data-day="4" onclick="toggleDay(this)"><span data-i18n="day_thursday">Jeu</span></button>
+            <button type="button" class="day-btn active" data-day="5" onclick="toggleDay(this)"><span data-i18n="day_friday">Ven</span></button>
+            <button type="button" class="day-btn" data-day="6" onclick="toggleDay(this)"><span data-i18n="day_saturday">Sam</span></button>
           </div>
         </div>
         
         <div class="form-group">
-          <label>🕐 Heure de démarrage</label>
+          <label>🕐 <span data-i18n="start_time">Heure de démarrage</span></label>
           <div class="start-time-selector">
             <select id="edit-start-type" onchange="updateStartTimeInputs()">
-              <option value="0">Heure fixe</option>
-              <option value="1">Lever du soleil</option>
-              <option value="2">Coucher du soleil</option>
+              <option value="0"><span data-i18n="fixed_time">Heure fixe</span></option>
+              <option value="1"><span data-i18n="sunrise">Lever du soleil</span></option>
+              <option value="2"><span data-i18n="sunset">Coucher du soleil</span></option>
             </select>
             <div id="fixed-time-inputs">
               <input type="number" id="edit-start-hour" min="0" max="23" value="9" style="width: 70px;">
@@ -775,9 +874,9 @@
               <input type="number" id="edit-start-minute" min="0" max="59" value="0" style="width: 70px;">
             </div>
             <div id="sun-offset-input" style="display: none;">
-              <span>Décalage:</span>
+              <span><span data-i18n="offset">Décalage:</span></span>
               <input type="number" id="edit-sun-offset" value="0" style="width: 80px;">
-              <span>minutes</span>
+              <span><span data-i18n="minutes">minutes</span></span>
             </div>
           </div>
         </div>
@@ -785,56 +884,56 @@
       
       <!-- Onglet Conditions -->
       <div id="editor-conditions" class="editor-tab-content">
-        <p class="info-text">⚠️ Le timer ne démarrera que si toutes les conditions cochées sont remplies</p>
+        <p class="info-text">⚠️ <span data-i18n="timer_conditions_warning">Le timer ne démarrera que si toutes les conditions cochées sont remplies</span></p>
         
         <div class="conditions-list">
           <div class="condition-item">
             <label>
               <input type="checkbox" id="cond-cover-open">
-              <span>🎚️ Volet doit être ouvert</span>
+              <span>🎚️ <span data-i18n="cond_cover_open">Volet doit être ouvert</span></span>
             </label>
           </div>
           
           <div class="condition-item">
             <label>
               <input type="checkbox" id="cond-temp-min">
-              <span>🌡️ Température eau minimum:</span>
+              <span>🌡️ <span data-i18n="cond_temp_min">Température eau minimum:</span></span>
             </label>
             <input type="number" id="cond-temp-min-val" step="0.1" value="15" style="width: 80px;">
-            <span>°C</span>
+            <span id="cond-temp-min-unit">°C</span>
           </div>
           
           <div class="condition-item">
             <label>
               <input type="checkbox" id="cond-temp-max">
-              <span>🌡️ Température eau maximum:</span>
+              <span>🌡️ <span data-i18n="cond_temp_max">Température eau maximum:</span></span>
             </label>
             <input type="number" id="cond-temp-max-val" step="0.1" value="30" style="width: 80px;">
-            <span>°C</span>
+            <span id="cond-temp-max-unit">°C</span>
           </div>
           
           <div class="condition-item">
             <label>
               <input type="checkbox" id="cond-ext-temp-min">
-              <span>☀️ Température extérieure minimum:</span>
+              <span>☀️ <span data-i18n="cond_ext_temp_min">Température extérieure minimum:</span></span>
             </label>
             <input type="number" id="cond-ext-temp-min-val" step="0.1" value="10" style="width: 80px;">
-            <span>°C</span>
+            <span id="cond-ext-temp-unit">°C</span>
           </div>
           
           <div class="condition-item">
             <label>
               <input type="checkbox" id="cond-pressure-min">
-              <span>💪 Pression minimum:</span>
+              <span>💪 <span data-i18n="cond_pressure_min">Pression minimum:</span></span>
             </label>
             <input type="number" id="cond-pressure-min-val" step="0.1" value="1.0" style="width: 80px;">
-            <span>bar</span>
+            <span id="cond-pressure-unit">bar</span>
           </div>
           
           <div class="condition-item">
             <label>
               <input type="checkbox" id="cond-no-leak" checked disabled>
-              <span>💧 Pas de fuite (obligatoire)</span>
+              <span>💧 <span data-i18n="cond_no_leak">Pas de fuite (obligatoire)</span></span>
             </label>
           </div>
         </div>
@@ -843,12 +942,12 @@
       <!-- Onglet Actions -->
       <div id="editor-actions" class="editor-tab-content">
         <div class="actions-header">
-          <p class="info-text">🎬 Actions à exécuter dans l'ordre</p>
-          <button class="btn btn-success" onclick="showActionSelector()">➕ Ajouter une action</button>
+          <p class="info-text">🎬 <span data-i18n="actions_execute_order">Actions à exécuter dans l'ordre</span></p>
+          <button class="btn btn-success" onclick="showActionSelector()">➕ <span data-i18n="add_action">Ajouter une action</span></button>
         </div>
         
         <div class="actions-list" id="actionsList">
-          <p style="text-align: center; color: #999; padding: 30px;">Aucune action. Cliquez sur "Ajouter une action" pour commencer.</p>
+          <p style="text-align: center; color: #999; padding: 30px;"><span data-i18n="no_actions_click">Aucune action. Cliquez sur "Ajouter une action" pour commencer.</span></p>
         </div>
       </div>
       
@@ -871,7 +970,7 @@
 <div class="modal" id="actionSelectorModal">
   <div class="modal-content">
     <div class="modal-header">
-      <h2>Choisir une action</h2>
+      <h2><span data-i18n="choose_action">Choisir une action</span></h2>
       <button class="close-btn" onclick="closeActionSelector()">✕</button>
     </div>
     
@@ -879,38 +978,38 @@
       <div class="action-types-grid">
         <div class="action-type-card" onclick="addActionType('relay')">
           <div class="action-type-icon">⚡</div>
-          <div class="action-type-name">Relais ON/OFF</div>
-          <div class="action-type-desc">Activer ou désactiver un équipement</div>
+          <div class="action-type-name"><span data-i18n="action_relay_title">Relais ON/OFF</span></div>
+          <div class="action-type-desc"><span data-i18n="action_relay_desc">Activer ou désactiver un équipement</span></div>
         </div>
         
         <div class="action-type-card" onclick="addActionType('wait')">
           <div class="action-type-icon">⏱️</div>
-          <div class="action-type-name">Attendre</div>
-          <div class="action-type-desc">Pause avant l'action suivante</div>
+          <div class="action-type-name"><span data-i18n="action_wait_title">Attendre</span></div>
+          <div class="action-type-desc"><span data-i18n="action_wait_desc">Pause avant l'action suivante</span></div>
         </div>
         
         <div class="action-type-card" onclick="addActionType('measure')">
           <div class="action-type-icon">🌡️</div>
-          <div class="action-type-name">Mesurer Température</div>
-          <div class="action-type-desc">Après 15min de pompe</div>
+          <div class="action-type-name"><span data-i18n="action_measure_title">Mesurer Température</span></div>
+          <div class="action-type-desc"><span data-i18n="action_measure_desc">Après 15min de pompe</span></div>
         </div>
         
         <div class="action-type-card" onclick="addActionType('auto')">
           <div class="action-type-icon">🔄</div>
-          <div class="action-type-name">Durée Auto</div>
-          <div class="action-type-desc">Température / 2 heures</div>
+          <div class="action-type-name"><span data-i18n="action_auto_title">Durée Auto</span></div>
+          <div class="action-type-desc"><span data-i18n="action_auto_desc">Température / 2 heures</span></div>
         </div>
 		
 		<div class="action-type-card" onclick="addActionType('buzzer')">
 		  <div class="action-type-icon">🔊</div>
-		  <div class="action-type-name">Buzzer</div>
-		  <div class="action-type-desc">Signal sonore (bips ou alarme)</div>
+		  <div class="action-type-name"><span data-i18n="action_buzzer_title">Buzzer</span></div>
+		  <div class="action-type-desc"><span data-i18n="action_buzzer_desc">Signal sonore (bips ou alarme)</span></div>
 		</div>
 
 		<div class="action-type-card" onclick="addActionType('led')">
 		  <div class="action-type-icon">💡</div>
-		  <div class="action-type-name">LED</div>
-		  <div class="action-type-desc">Contrôle de la LED de statut</div>
+		  <div class="action-type-name"><span data-i18n="action_led_title">LED</span></div>
+		  <div class="action-type-desc"><span data-i18n="action_led_desc">Contrôle de la LED de statut</span></div>
 		</div>
       </div>
     </div>
@@ -922,7 +1021,7 @@
   <div class="modal-content modal-large">
     <div class="modal-header">
       <h2 id="calib-assistant-title">🎯 Assistant Étalonnage</h2>
-      <button class="close-btn" onclick="closeCalibrationAssistant()">✕</button>
+      <button class="close-btn" onclick="PoolCalibration.closeCalibrationAssistant()">✕</button>
     </div>
     
     <div class="modal-body">
@@ -934,111 +1033,111 @@
       
       <!-- Étape 1: Choix du mode -->
       <div class="calib-step" id="calib-step-1">
-        <h3>📋 Choix du mode d'étalonnage</h3>
-        <p>Sélectionnez la méthode d'étalonnage adaptée à vos besoins:</p>
+        <h3>📋 <span data-i18n="calib_mode_choice">Choix du mode d'étalonnage</span></h3>
+        <p><span data-i18n="calib_select_method">Sélectionnez la méthode d'étalonnage adaptée à vos besoins:</span></p>
         
         <div class="calib-mode-choice">
           <div class="calib-mode-card">
             <input type="radio" name="calib-mode" value="offset" id="mode-offset" checked>
             <label for="mode-offset">
-              <h4>📏 Offset simple</h4>
-              <p>Correction linéaire unique</p>
-              <p class="mode-detail">✅ Rapide et simple<br>✅ 1 point de mesure<br>⚠️ Moins précis sur large plage</p>
+              <h4>📏 <span data-i18n="calib_offset_simple">Offset simple</span></h4>
+              <p><span data-i18n="calib_offset_desc">Correction linéaire unique</span></p>
+              <p class="mode-detail"><span data-i18n="calib_offset_pro1">✅ Rapide et simple</span><br><span data-i18n="calib_offset_pro2">✅ 1 point de mesure</span><br><span data-i18n="calib_offset_con">⚠️ Moins précis sur large plage</span></p>
             </label>
           </div>
           
           <div class="calib-mode-card">
             <input type="radio" name="calib-mode" value="twopoint" id="mode-twopoint">
             <label for="mode-twopoint">
-              <h4>🎯 2 points</h4>
-              <p>Calibration linéaire complète</p>
-              <p class="mode-detail">✅ Très précis<br>✅ Compensate la dérive<br>⏱️ 2 points de mesure</p>
+              <h4>🎯 <span data-i18n="calib_twopoint">2 points</span></h4>
+              <p><span data-i18n="calib_twopoint_desc">Calibration linéaire complète</span></p>
+              <p class="mode-detail"><span data-i18n="calib_twopoint_pro1">✅ Très précis</span><br><span data-i18n="calib_twopoint_pro2">✅ Compense la dérive</span><br><span data-i18n="calib_twopoint_detail">⏱️ 2 points de mesure</span></p>
             </label>
           </div>
         </div>
         
-        <button class="btn btn-success btn-block" onclick="selectCalibrationMode(document.querySelector('input[name=calib-mode]:checked').value === 'twopoint')">
-          Suivant ▶️
+        <button class="btn btn-success btn-block" onclick="PoolCalibration.selectCalibrationMode(document.querySelector('input[name=calib-mode]:checked').value === 'twopoint')">
+          <span data-i18n="next">Suivant</span> ▶️
         </button>
       </div>
       
       <!-- Étape 2: Premier point -->
       <div class="calib-step" id="calib-step-2" style="display: none;">
-        <h3>📍 Point de mesure 1</h3>
-        <p>Prenez votre première mesure de référence</p>
+        <h3>📍 <span data-i18n="calib_measure_point1">Point de mesure 1</span></h3>
+        <p><span data-i18n="calib_take_first_measure">Prenez votre première mesure de référence</span></p>
         
         <div class="realtime-monitor">
-          <div class="monitor-label">Valeur capteur en temps réel:</div>
+          <div class="monitor-label"><span data-i18n="calib_realtime_value">Valeur capteur en temps réel:</span></div>
           <div class="monitor-value" id="calib-realtime-value1">--</div>
         </div>
         
         <div class="form-group" style="margin-top: 20px;">
-          <label>📏 Valeur mesurée avec votre équipement de référence:</label>
+          <label>📏 <span data-i18n="calib_reference_value">Valeur mesurée avec votre équipement de référence:</span></label>
           <input type="number" step="0.01" id="calib-real-value1" placeholder="Ex: 22.5">
         </div>
         
         <div class="alert alert-info">
-          💡 <strong>Conseil:</strong> Attendez que la valeur se stabilise avant de la noter
+          💡 <strong><span data-i18n="tip">Conseil:</span></strong> <span data-i18n="calib_wait_stabilize">Attendez que la valeur se stabilise avant de la noter</span>
         </div>
         
-        <button class="btn btn-success btn-block" onclick="captureCalibrationPoint(1)">
-          ✅ Capturer ce point
+        <button class="btn btn-success btn-block" onclick="PoolCalibration.captureCalibrationPoint(1)">
+          ✅ <span data-i18n="calib_capture_point">Capturer ce point</span>
         </button>
       </div>
       
       <!-- Étape 3: Deuxième point (si 2 points) -->
       <div class="calib-step" id="calib-step-3" style="display: none;">
-        <h3>📍 Point de mesure 2</h3>
-        <p id="calib-point1-summary">Point 1 capturé</p>
+        <h3>📍 <span data-i18n="calib_measure_point2">Point de mesure 2</span></h3>
+        <p id="calib-point1-summary"><span data-i18n="calib_point1_captured">Point 1 capturé</span></p>
         
         <div class="alert alert-warning">
-          ⚠️ <strong>Important:</strong> Changez significativement la valeur (±10°C ou ±1 bar minimum)
+          ⚠️ <strong><span data-i18n="important">Important:</span></strong> <span data-i18n="calib_change_value_warning">Changez significativement la valeur (±10°C ou ±1 bar minimum)</span>
         </div>
         
         <div class="realtime-monitor">
-          <div class="monitor-label">Valeur capteur en temps réel:</div>
+          <div class="monitor-label"><span data-i18n="calib_realtime_value">Valeur capteur en temps réel:</span></div>
           <div class="monitor-value" id="calib-realtime-value2">--</div>
         </div>
         
         <div class="form-group" style="margin-top: 20px;">
-          <label>📏 Valeur mesurée avec votre équipement de référence:</label>
+          <label>📏 <span data-i18n="calib_reference_value">Valeur mesurée avec votre équipement de référence:</span></label>
           <input type="number" step="0.01" id="calib-real-value2" placeholder="Ex: 15.0">
         </div>
         
-        <button class="btn btn-success btn-block" onclick="captureCalibrationPoint(2)">
-          ✅ Capturer ce point
+        <button class="btn btn-success btn-block" onclick="PoolCalibration.captureCalibrationPoint(2)">
+          ✅ <span data-i18n="calib_capture_point">Capturer ce point</span>
         </button>
       </div>
       
       <!-- Étape 4: Validation -->
       <div class="calib-step" id="calib-step-4" style="display: none;">
-        <h3>✅ Validation</h3>
-        <p>Vérifiez les paramètres avant d'appliquer l'étalonnage:</p>
+        <h3>✅ <span data-i18n="validation">Validation</span></h3>
+        <p><span data-i18n="calib_verify_params">Vérifiez les paramètres avant d'appliquer l'étalonnage:</span></p>
         
         <div id="calib-summary"></div>
         
         <div class="alert alert-warning">
-          ⚠️ L'étalonnage sera appliqué immédiatement. Assurez-vous que les valeurs sont correctes.
+          ⚠️ <span data-i18n="calib_apply_warning">L'étalonnage sera appliqué immédiatement. Assurez-vous que les valeurs sont correctes.</span>
         </div>
         
         <div class="form-actions">
-          <button class="btn" onclick="closeCalibrationAssistant()">Annuler</button>
-          <button class="btn btn-success" onclick="applyCalibration()">✅ Appliquer</button>
+          <button class="btn" onclick="PoolCalibration.closeCalibrationAssistant()"><span data-i18n="cancel">Annuler</span></button>
+          <button class="btn btn-success" onclick="PoolCalibration.applyCalibration()">✅ <span data-i18n="apply">Appliquer</span></button>
         </div>
       </div>
       
       <!-- Étape 5: Test -->
       <div class="calib-step" id="calib-step-5" style="display: none;">
-        <h3>🧪 Test de validation</h3>
-        <p>L'étalonnage a été appliqué avec succès. Test de stabilité en cours...</p>
+        <h3>🧪 <span data-i18n="calib_validation_test">Test de validation</span></h3>
+        <p><span data-i18n="calib_applied_success">L'étalonnage a été appliqué avec succès. Test de stabilité en cours...</span></p>
         
         <div id="calib-test-results">
-          <p>🔄 Test en cours...</p>
+          <p>🔄 <span data-i18n="testing">Test en cours...</span></p>
         </div>
         
         <div class="form-actions" style="margin-top: 20px;">
-          <button class="btn btn-success btn-block" onclick="closeCalibrationAssistant()">
-            ✅ Terminer
+          <button class="btn btn-success btn-block" onclick="PoolCalibration.closeCalibrationAssistant()">
+            ✅ <span data-i18n="finish">Terminer</span>
           </button>
         </div>
       </div>
@@ -1046,7 +1145,153 @@
   </div>
 </div>
 
-  <script src="/app.js"></script>
-  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+<!-- MODAL OTA -->
+<div id="otaModal" class="modal">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h2>🚀 <span data-i18n="ota_title">Mises à jour OTA</span></h2>
+        <button class="close-btn" onclick="closeOTAModal()">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        
+        <!-- System Info -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="card-header">
+            <h3>ℹ️ <span data-i18n="system_info">Informations système</span></h3>
+          </div>
+          <div class="info-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div class="info-item">
+              <span class="info-label" data-i18n="current_partition">Partition actuelle</span>
+              <span class="info-value" id="otaCurrentPartition">--</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label" data-i18n="update_partition">Partition mise à jour</span>
+              <span class="info-value" id="otaUpdatePartition">--</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label" data-i18n="sketch_info">Info Sketch</span>
+              <span class="info-value" id="otaSketchInfo">--</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label" data-i18n="filesystem_info">Info Filesystem</span>
+              <span class="info-value" id="otaFilesystemInfo">--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Firmware Update -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="card-header">
+            <h3>📦 <span data-i18n="firmware_update">Mise à jour Firmware</span></h3>
+          </div>
+          <p style="color: #666; margin-bottom: 15px;" data-i18n="firmware_desc">
+            Téléchargez un nouveau firmware (.bin) pour mettre à jour le code de l'application.
+          </p>
+          <input type="file" id="otaFirmwareFile" accept=".bin" style="display: none;">
+          <button class="btn btn-primary" onclick="document.getElementById('otaFirmwareFile').click()">
+            📦 <span data-i18n="select_firmware">Sélectionner Firmware</span>
+          </button>
+          <div id="otaFirmwareInfo" class="ota-file-info"></div>
+        </div>
+
+        <!-- Filesystem Update -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="card-header">
+            <h3>💾 <span data-i18n="filesystem_update">Mise à jour Filesystem</span></h3>
+          </div>
+          <p style="color: #666; margin-bottom: 15px;" data-i18n="filesystem_desc">
+            Téléchargez une image filesystem (.bin) pour mettre à jour l'interface web.
+          </p>
+          <input type="file" id="otaFilesystemFile" accept=".bin" style="display: none;">
+          <button class="btn btn-primary" onclick="document.getElementById('otaFilesystemFile').click()">
+            💾 <span data-i18n="select_filesystem">Sélectionner Filesystem</span>
+          </button>
+          <div id="otaFilesystemInfo" class="ota-file-info"></div>
+        </div>
+
+        <!-- Progress -->
+        <div id="otaProgressContainer" class="ota-progress" style="display: none;">
+          <h3 id="otaProgressText">⏳ <span data-i18n="loading">Préparation...</span></h3>
+          <div class="ota-progress-bar-wrapper">
+            <div id="otaProgressBar" class="ota-progress-bar">0%</div>
+          </div>
+          <div id="otaProgressDetails" class="ota-progress-details"></div>
+        </div>
+
+        <!-- Warning -->
+        <div class="ota-warning">
+          ⚠️ <strong data-i18n="warning">Attention</strong>: 
+          <span data-i18n="ota_warning">Ne coupez pas l'alimentation pendant la mise à jour. La mise à jour peut prendre 1-2 minutes.</span>
+        </div>
+
+        <!-- Instructions -->
+        <details class="ota-instructions">
+          <summary>📖 <span data-i18n="instructions">Instructions</span></summary>
+          <div style="margin-top: 15px;">
+            <div style="margin-bottom: 15px;">
+              <h4 data-i18n="generate_firmware">Générer firmware.bin:</h4>
+              <ol style="padding-left: 20px; color: #666;">
+                <li data-i18n="firmware_step1">Compilez votre sketch dans Arduino IDE</li>
+                <li data-i18n="firmware_step2">Allez dans Sketch → Export compiled Binary</li>
+                <li data-i18n="firmware_step3">Trouvez le fichier .bin dans votre dossier de projet</li>
+              </ol>
+            </div>
+            <div>
+              <h4 data-i18n="generate_filesystem">Générer littlefs.bin:</h4>
+              <ol style="padding-left: 20px; color: #666;">
+                <li data-i18n="filesystem_step1">Placez vos fichiers web dans le dossier data/</li>
+                <li data-i18n="filesystem_step2">Utilisez l'outil ESP32 LittleFS Data Upload</li>
+                <li data-i18n="filesystem_step3">Ou utilisez la commande: mklittlefs -c data -p 256 -b 4096 -s 0x9E0000 littlefs.bin</li>
+              </ol>
+            </div>
+          </div>
+        </details>
+        
+      </div>
+    </div>
+  </div>
+
+<!-- Modal pour les dates disponibles -->
+<div id="dates-modal" class="modal" style="display: none;">
+  <div class="modal-content" style="max-width: 600px;">
+    <div class="modal-header">
+      <h2>📅 <span data-i18n="available_dates">Dates disponibles</span></h2>
+      <span class="close" onclick="document.getElementById('dates-modal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div id="dates-list" style="max-height: 400px; overflow-y: auto;">
+        <p><span data-i18n="loading_dates">Chargement des dates...</span></p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="document.getElementById('dates-modal').style.display='none'">
+        <span data-i18n="close">Fermer</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour les infos de stockage -->
+<div id="storage-modal" class="modal" style="display: none;">
+  <div class="modal-content" style="max-width: 500px;">
+    <div class="modal-header">
+      <h2>💾 <span data-i18n="storage_info">Informations de stockage</span></h2>
+      <span class="close" onclick="document.getElementById('storage-modal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div id="storage-info-content">
+        <p><span data-i18n="loading_info">Chargement des informations...</span></p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="document.getElementById('storage-modal').style.display='none'">
+        <span data-i18n="close">Fermer</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+	<button class="theme-toggle" id="themeToggle" onclick="PoolTheme.toggleTheme()">🌙</button>
 </body>
 </html>

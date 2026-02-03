@@ -1026,41 +1026,6 @@ input:checked + .slider:before {
   }
 }
 
-@media (max-width: 768px) {
-  .app-container.active {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-  }
-
-  .main {
-    padding: 20px;
-  }
-
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .stat-card {
-    padding: 20px;
-  }
-
-  .page-title {
-    font-size: 1.6em;
-  }
-  
-  .form-actions {
-    flex-direction: column;
-  }
-  
-  .form-actions .btn {
-    width: 100%;
-  }
-}
 
 /* ========== GRAPHIQUE JOURNALIER ========== */
 .chart-legend {
@@ -1770,16 +1735,6 @@ input:checked + .slider:before {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .calib-sensor-card {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  
-  .calib-mode-choice {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* ========================================================================== */
 /* THÈME SOMBRE */
@@ -1897,4 +1852,420 @@ input:checked + .slider:before {
 .theme-toggle:hover {
   transform: scale(1.1) rotate(20deg);
   box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* ========================================
+   SÉLECTEUR DE LANGUE
+   ======================================== */
+
+/* Sélecteur de langue dans la sidebar */
+.language-selector {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.language-selector:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.language-selector label {
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.language-selector select {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.95em;
+  font-weight: 500;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.language-selector select:hover {
+  background: white;
+  border-color: var(--primary);
+}
+
+.language-selector select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Sélecteur de langue sur la page de login */
+.language-selector-login {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.language-selector-login select {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 1em;
+  font-weight: 500;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.language-selector-login select:hover {
+  background: white;
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.language-selector-login select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Animation pour le changement de langue */
+@keyframes fadeInTranslation {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-i18n],
+[data-i18n-placeholder],
+[data-i18n-title] {
+  animation: fadeInTranslation 0.3s ease-out;
+}
+
+/* Mode sombre - ajustements pour le sélecteur */
+[data-theme="dark"] .language-selector {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .language-selector:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .language-selector select {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ecf0f1;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .language-selector select:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .language-selector-login select {
+  background: rgba(44, 62, 80, 0.95);
+  color: #ecf0f1;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .language-selector-login select:hover {
+  background: rgba(44, 62, 80, 1);
+  border-color: var(--primary);
+}
+
+/* Responsive */
+
+/* File Info */
+.ota-file-info {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: var(--light);
+  border-radius: 8px;
+  color: var(--secondary);
+  font-size: 0.9em;
+  border-left: 3px solid var(--success);
+  display: none;
+}
+
+.ota-file-info.show {
+  display: block;
+}
+
+/* Progress Container */
+.ota-progress {
+  background: #e3f2fd;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.ota-progress h3 {
+  margin: 0 0 15px 0;
+  color: #1976d2;
+  font-size: 1.1em;
+}
+
+.ota-progress-bar-wrapper {
+  width: 100%;
+  height: 35px;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ota-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--success), #229954);
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 0.95em;
+}
+
+.ota-progress-details {
+  text-align: center;
+  color: #1565c0;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+/* Warning Box */
+.ota-warning {
+  padding: 15px;
+  background: rgba(243, 156, 18, 0.1);
+  border-left: 4px solid var(--warning);
+  border-radius: 8px;
+  color: var(--secondary);
+  font-size: 0.95em;
+  margin-bottom: 20px;
+}
+
+.ota-warning strong {
+  color: var(--warning);
+}
+
+/* Instructions */
+.ota-instructions {
+  background: var(--light);
+  padding: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.ota-instructions:hover {
+  border-color: var(--primary);
+}
+
+.ota-instructions summary {
+  font-weight: 600;
+  color: var(--secondary);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.ota-instructions summary::-webkit-details-marker {
+  display: none;
+}
+
+.ota-instructions summary::before {
+  content: '▶';
+  display: inline-block;
+  transition: transform 0.3s ease;
+  color: var(--primary);
+  font-size: 0.8em;
+}
+
+.ota-instructions[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.ota-instructions h4 {
+  color: var(--secondary);
+  margin: 15px 0 10px 0;
+  font-size: 1em;
+}
+
+.ota-instructions ol {
+  margin: 10px 0;
+  padding-left: 25px;
+  color: #666;
+  line-height: 1.8;
+}
+
+.ota-instructions ol li {
+  margin: 8px 0;
+}
+
+/* Dark Theme Support */
+[data-theme="dark"] .ota-progress {
+  background: rgba(25, 118, 210, 0.1);
+}
+
+[data-theme="dark"] .ota-progress h3 {
+  color: #64b5f6;
+}
+
+[data-theme="dark"] .ota-progress-bar-wrapper {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .ota-progress-details {
+  color: #90caf9;
+}
+
+[data-theme="dark"] .ota-warning {
+  background: rgba(243, 156, 18, 0.15);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .ota-instructions {
+  background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .ota-instructions summary {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .ota-instructions ol {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .ota-file-info {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* Responsive */
+
+.date-item {
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.date-item:hover {
+  background-color: var(--hover-bg);
+  border-color: var(--primary-color);
+  transform: translateX(5px);
+}
+
+.date-item-date {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.date-item-info {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.storage-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: var(--hover-bg);
+  border-radius: 6px;
+}
+
+.storage-stat-label {
+  font-weight: bold;
+}
+
+.storage-stat-value {
+  color: var(--primary-color);
+}/* ========================================
+   RESPONSIVE - MOBILE (<768px)
+   Toutes les adaptations mobile regroupées ici
+   ======================================== */
+@media (max-width: 768px) {
+  .app-container.active {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .main {
+    padding: 20px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    padding: 20px;
+  }
+
+  .page-title {
+    font-size: 1.6em;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .form-actions .btn {
+    width: 100%;
+  }
+  .calib-sensor-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .calib-mode-choice {
+    grid-template-columns: 1fr;
+  }
+  .language-selector-login {
+    top: 10px;
+    right: 10px;
+  }
+  
+  .language-selector-login select {
+    padding: 8px 12px;
+    font-size: 0.9em;
+  }
+  .ota-progress {
+    padding: 15px;
+  }
+  
+  .ota-progress-bar-wrapper {
+    height: 30px;
+  }
+  
+  .ota-instructions ol {
+    padding-left: 20px;
+  }
 }

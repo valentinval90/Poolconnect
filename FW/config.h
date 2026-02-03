@@ -1,12 +1,13 @@
 /* 
  * POOL CONNECT - CONFIGURATION
  * Pinout, constantes et définitions globales
+ * config.h   V0.4
  */
 
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define FIRMWARE_VERSION "1.0.1"
+#define FIRMWARE_VERSION "1.0.2"
 
 // ============================================================================
 // PINOUT ESP32-S3-WROOM-1-N16R8
@@ -54,5 +55,29 @@ extern const unsigned long MQTT_RECONNECT_INTERVAL;
 
 // Météo
 extern const unsigned long WEATHER_UPDATE_INTERVAL;
+
+// ============================================
+// CONFIGURATION DES LOGS
+// ============================================
+
+// Activer/désactiver le système de logging
+#define ENABLE_LOGGING true
+
+// Niveau de log global (LOG_NONE=0, LOG_ERROR=1, LOG_WARNING=2, LOG_INFO=3, LOG_DEBUG=4, LOG_VERBOSE=5)
+#define LOG_LEVEL 4
+
+// Activer/désactiver les catégories spécifiques de logs
+#define LOG_WEB_REQUESTS       true  // Logs des requêtes HTTP
+#define LOG_WEB_DATA_EXCHANGE  true  // Logs des données échangées web <-> hardware
+#define LOG_SENSOR_VALUES      true  // Logs des lectures de capteurs
+#define LOG_TIMER_EVENTS       true  // Logs des événements de timers
+#define LOG_MQTT_MESSAGES      true  // Logs des messages MQTT
+#define LOG_STORAGE_OPS        true  // Logs des opérations de stockage
+#define LOG_MEMORY_INFO        true  // Logs de l'état de la mémoire
+#define LOG_OTA_OPERATIONS     true  // Logs des opérations OTA (Over-The-Air)
+#define LOG_CHART_OPS          true  // Logs des opérations de graphique
+
+// Vitesse du port série pour les logs
+#define SERIAL_BAUD_RATE 115200
 
 #endif // CONFIG_H

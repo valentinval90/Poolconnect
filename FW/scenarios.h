@@ -1,6 +1,7 @@
 /* 
  * POOL CONNECT - SCÉNARIOS PRÉ-CONFIGURÉS
  * Configurations types prêtes à l'emploi
+ * scenarios.h   V0.2
  */
 
 #ifndef SCENARIOS_H

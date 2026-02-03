@@ -1,5 +1,6 @@
-/* 
- * ESP32-S3 Pool Connect
+ /* 
+ * POOL CONNECT - MAIN
+ * Poolconnect.ino   V0.4
  */
 
 // ============================================================================
@@ -12,7 +13,6 @@
 #include <ArduinoJson.h>
 #include <LittleFS.h>
 #include <WebServer.h>
-#include <ArduinoOTA.h>
 #include <time.h>
 #include <HTTPClient.h>
 #include <Update.h>
@@ -24,10 +24,11 @@
 #include <INA226.h>
 
 // ============================================================================
-// INCLUDES - MODULES DU PROJET (ordre important!)
+// INCLUDES - MODULES DU PROJET
 // ============================================================================
 
 #include "config.h"
+#include "logging.h"
 #include "types.h"
 #include "equation_parser.h"
 #include "globals.h"
@@ -38,52 +39,89 @@
 #include "weather.h"
 #include "mqtt_manager.h"
 #include "timer_system.h"
-#include "timer_processor_complete.h" 
+#include "timer_processor.h" 
 #include "core_tasks.h"                
 #include "system_init.h"                
-#include "web_handlers.h"               
-#include "web_handlers_impl.h"     
+#include "web_handlers.h"                 
 #include "backup_restore.h"
 #include "scenarios.h"
+#include "ota_manager.h"
+#include "chart_storage.h"
+#include "chart_archiver.h"
+#include "chart_web_handlers.h"
+#include "chart_event_points.h"
 
 // ============================================================================
 // SETUP - INITIALISATION DU SYSTÈME
 // ============================================================================
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(SERIAL_BAUD_RATE);
   delay(100);
   
-  Serial.println("\n\n========================");
-  Serial.println("PoolConnect");
-  Serial.println("========================\n");
+  // Initialisation du système de logging
+  LOG_INIT();
+  
+  LOG_SEPARATOR();
+  LOG_I(LOG_SYSTEM, "========================================");
+  LOG_I(LOG_SYSTEM, "POOL CONNECT v%s", FIRMWARE_VERSION);
+  LOG_I(LOG_SYSTEM, "ESP32-S3 - Demarrage du systeme");
+  LOG_I(LOG_SYSTEM, "========================================");
+  LOG_SEPARATOR();
 
   // Initialisation hardware
+  LOG_I(LOG_SYSTEM, "Phase 1: Initialisation materielle...");
   initRelays();
   initLED();
   initFilesystem();
+  LOG_I(LOG_SYSTEM, "Phase 1: Complete");
   
   // Chargement des configurations
+  LOG_I(LOG_SYSTEM, "Phase 2: Chargement des configurations...");
   loadAllConfigs();
+  LOG_I(LOG_SYSTEM, "Phase 2: Complete");
   
   // Initialisation capteurs et dual-core
+  LOG_I(LOG_SYSTEM, "Phase 3: Initialisation capteurs et dual-core...");
   initSensors();
   initCore1();
+  LOG_I(LOG_SYSTEM, "Phase 3: Complete");
   
   // Connexion réseau
+  LOG_I(LOG_SYSTEM, "Phase 4: Connexion reseau...");
   initWiFi();
-  initOTA();
+  initAruinoOTA();
+  LOG_I(LOG_SYSTEM, "Phase 4: Complete");
   
   // ========================================================================
   // CONFIGURATION WEB SERVER - ROUTES
   // ========================================================================
   
+  LOG_I(LOG_SYSTEM, "Phase 5: Configuration du serveur web...");
+  
   // Fichiers statiques
   server.on("/", handleRoot);
   server.on("/style.css", handleCss);
   server.on("/app.js", handleJs);
-  server.on("/logo.png", handleLogo);
-  server.on("/favicon.png", handleFavicon);
+
+  server.on("/modules/auth.js", handleJSauth);
+  server.on("/modules/backup.js", handleJsbackup);
+  server.on("/modules/calibration.js", handleJscalib);
+  server.on("/modules/chart.js", handleJschart);
+  server.on("/modules/control.js", handleJscontrol);
+  server.on("/modules/dashboard.js", handleJsdashboard);
+  server.on("/modules/preferences.js", handleJspref);
+  server.on("/modules/scenarios.js", handleJsscenar);
+  server.on("/modules/settings.js", handleJssettings);
+  server.on("/modules/theme.js", handleJstheme);
+  server.on("/modules/timers.js", handleJstimers);
+  server.on("/modules/units.js", handleJsunits);
+  server.on("/modules/users.js", handleJsusers);
+  server.on("/modules/translations.js", handlelangageJs);
+  server.on("/modules/ota.js", handleotaJs);
+
+  server.on("/img/logo.png", handleLogo);
+  server.on("/img/favicon.png", handleFavicon);
   
   // API Basique
   server.on("/api/time", handleApiTime);
@@ -92,6 +130,7 @@ void setup() {
   server.on("/api/relay", handleApiRelay);
   server.on("/api/sensors", handleApiSensors);
   server.on("/api/buzzer/mute", handleApiBuzzerMute);
+  server.on("/api/pump/status", handleApiPumpStatus);
   
   // API MQTT
   server.on("/api/mqtt/config", HTTP_GET, handleApiMQTTConfig);
@@ -119,6 +158,14 @@ void setup() {
 
   // API Configuration Graphique
   server.on("/api/chart/config", handleApiChartConfig);
+
+  // API Chart Data (nouveau système d'historique)
+  server.on("/api/chart/data", HTTP_GET, handleApiChartData);
+  server.on("/api/chart/available-dates", HTTP_GET, handleApiChartAvailableDates);
+  server.on("/api/chart/storage-info", HTTP_GET, handleApiChartStorageInfo);
+  server.on("/api/chart/force-archive", HTTP_POST, handleApiChartForceArchive);
+  server.on("/api/chart/data", HTTP_DELETE, handleApiChartDeleteDay);
+  server.on("/api/chart/export-csv", HTTP_GET, handleApiChartExportCSV);
   
   // API Authentification & Utilisateurs
   server.on("/api/auth", HTTP_POST, handleApiAuth);
@@ -140,7 +187,11 @@ void setup() {
   // API Scénarios
   server.on("/api/scenarios", HTTP_GET, handleGetScenarios);
   server.on("/api/scenarios/apply", HTTP_POST, handleApplyScenario);
-  
+
+  // API Préférence
+  server.on("/api/preferences", HTTP_GET, handleApiGetPreferences);
+  server.on("/api/preferences", HTTP_POST, handleApiSavePreferences);
+
   // Routes dynamiques (PUT/DELETE sur /api/timers/flex/{id})
   server.onNotFound([]() {
     String uri = server.uri();
@@ -156,15 +207,21 @@ void setup() {
       handleApiDeleteFlexTimer();
     } 
     else {
+      LOG_W(LOG_WEB, "Route non trouvee: %s", uri.c_str());
       server.send(404, "text/plain", "Not Found");
     }
   });
 
+  LOG_I(LOG_SYSTEM, "Serveur web configure: 40+ endpoints enregistres");
+  
   // ========================================================================
   // CONFIGURATION OTA UPDATE
   // ========================================================================
   
+  LOG_D(LOG_SYSTEM, "Configuration OTA update via web...");
+  
   server.on("/update", HTTP_GET, []() {
+    LOG_WEB_REQUEST("GET", "/update");
     server.send(200, "text/html", 
       "<html><body><h1>Mise à jour OTA</h1>"
       "<form method='POST' action='/update' enctype='multipart/form-data'>"
@@ -174,45 +231,72 @@ void setup() {
 
   server.on("/update", HTTP_POST, 
     []() { 
-      server.send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK"); 
-      ESP.restart(); 
+      bool success = !Update.hasError();
+      LOG_I(LOG_SYSTEM, "Mise a jour OTA: %s", success ? "SUCCES" : "ECHEC");
+      server.send(200, "text/plain", success ? "OK" : "FAIL"); 
+      
+      if (success) {
+        LOG_I(LOG_SYSTEM, "Redemarrage dans 2 secondes...");
+        delay(2000);
+        ESP.restart();
+      }
     },
     []() {
       HTTPUpload& upload = server.upload();
       if (upload.status == UPLOAD_FILE_START) {
-        Serial.printf("Update: %s\n", upload.filename.c_str());
+        LOG_I(LOG_SYSTEM, "Debut mise a jour OTA: %s", upload.filename.c_str());
         if (!Update.begin(UPDATE_SIZE_UNKNOWN)) {
+          LOG_E(LOG_SYSTEM, "Erreur demarrage mise a jour");
           Update.printError(Serial);
         }
       } else if (upload.status == UPLOAD_FILE_WRITE) {
         if (Update.write(upload.buf, upload.currentSize) != upload.currentSize) {
+          LOG_E(LOG_SYSTEM, "Erreur ecriture mise a jour");
           Update.printError(Serial);
         }
       } else if (upload.status == UPLOAD_FILE_END) {
         if (Update.end(true)) {
-          Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
+          LOG_I(LOG_SYSTEM, "Mise a jour terminee: %u bytes", upload.totalSize);
         } else {
+          LOG_E(LOG_SYSTEM, "Erreur finalisation mise a jour");
           Update.printError(Serial);
         }
       }
     }
   );
 
+  OTAManager::setupOTARoutes(&server);
+
   server.begin();
-  Serial.println("✓ Web server démarré");
+  LOG_I(LOG_SYSTEM, "Serveur web demarre sur le port 80");
+  LOG_I(LOG_SYSTEM, "Phase 5: Complete");
 
   // Configuration finale
+  LOG_I(LOG_SYSTEM, "Phase 6: Configuration finale...");
   initNTP();
   initMQTT();
   updateWeatherData();
+
+    // Initialisation du système de graphique
+  LOG_I(LOG_SYSTEM, "Initialisation du systeme de graphique...");
+  initChartStorage();
+  initChartArchiver();
+  LOG_I(LOG_SYSTEM, "Systeme de graphique initialise");
+
+  LOG_I(LOG_SYSTEM, "Phase 6: Complete");
 
   setLEDStatus(LED_RUNNING);
 
   checkAutoBackup();
 
-  Serial.println("\n========================================");
-  Serial.println("✅ Setup terminé avec succès!");
-  Serial.println("========================================\n");
+  LOG_SEPARATOR();
+  LOG_I(LOG_SYSTEM, "========================================");
+  LOG_I(LOG_SYSTEM, "SETUP TERMINE AVEC SUCCES!");
+  LOG_I(LOG_SYSTEM, "========================================");
+  LOG_I(LOG_SYSTEM, "Systeme pret - Core 0: Web/OTA, Core 1: Capteurs/Timers");
+  LOG_SEPARATOR();
+  
+  LOG_MEMORY();
 }
 
 // ============================================================================
@@ -220,8 +304,8 @@ void setup() {
 // ============================================================================
 
 void loop() {
-  ArduinoOTA.handle();
   server.handleClient();
   checkAutoBackup();
+  checkMemoryPeriodic();
   delay(10);
 }
