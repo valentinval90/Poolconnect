@@ -105,23 +105,6 @@ The firmware is currently in prototype/testing phase:
 <img width="446" height="538" alt="image" src="https://github.com/user-attachments/assets/f8c1eac2-8a08-45c3-abbe-f5ee3647511e" />
 <img width="1892" height="902" alt="image" src="https://github.com/user-attachments/assets/56ebca87-8b25-4ff3-93ae-a713702825d7" />
 - For more visuals, see the img folder in the GitHub repository.
-  
-## 🚀 Roadmap
-
-### 🟢 Hardware
-- Schematic V1  
-- PCB prototype 
-- PCB V2  
-- First prototype batch from [JLCPCB](https://cart.jlcpcb.com/fr/quote?from=valentin.)  
-- Integration into a pool electrical enclosure ([exemple Amazon](https://amzn.eu/d/afS3UlJ))  
-
-### 🟠 Software
-- Complete pressure monitoring logic and customizable 
-- Leak detection alarms  
-- Dynamic web dashboard 
-- Mobile-friendly adaptive UI
-- Automatic discovery in Home Assistant 
-- OTA firmware updates 
 
 ---
 
