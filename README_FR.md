@@ -153,7 +153,7 @@ Les éléments mentionnés ci-dessus peuvent être remplacés par des équipemen
 
 Réaliser le câblage suivant :
 
-<img width="1263" height="802" alt="Schéma de câblage PoolConnect" src="https://github.com/user-attachments/assets/73d831a6-8316-4375-83a4-593155cd4892" />
+<img width="3000" height="2177" alt="circuit_image" src="https://github.com/user-attachments/assets/56b369a0-fbc2-4f2d-930c-e06e39a72f71" />
 
 ---
 
