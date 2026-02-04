@@ -1,142 +1,245 @@
 <img width="1235" height="448" alt="Poolconnect logo" src="https://github.com/user-attachments/assets/75dec9b7-f1db-4642-aca4-e8e317624f90" />
 
-PoolConnect is a system that makes your swimming pool connected, smart, and fully open source
+PoolConnect is an open-source system that makes your pool smart and compatible with Home Assistant.
 
 ---
 
 ## Overview
 
-PoolConnect is an open-source hardware and software project designed to simplify pool management by making it smarter, safer, and more energy-efficient.
-Instead of relying on traditional mechanical timers, PoolConnect dynamically adjusts filtration time based on water temperature and weather forecasts for the day and more.
+**PoolConnect** is an innovative open-source solution designed to make your pool management **smarter, safer, and more energy-efficient**.  
+Forget traditional mechanical timers: PoolConnect offers you **complete and customizable control** of your filtration cycle.  
 
-It also allows control of multiple pool devices: 
-- Heat pump (dry contact)
-- Electrolyzer (dry contact) 
-- Pool lighting (dry contact)
-- 12 V solenoid valve for automatic pool water refill.
-- Monitors the filter pressure using a 12V 4–20 mA pressure sensor.
-- Continuously reads the water temperature.
+You can create your own filtration equation, from the simplest (e.g., water temperature ÷ 2) to advanced formulas integrating sunlight, daily weather forecasts, or pool cover status.
 
-The hardware schematic and the first PCB prototype are already designed around an **ESP32-S3-WROOM-1 (N16R8)**.
+### Intelligent Equipment Control
+
+The system manages multiple pool devices **independently and securely**.  
+For example, the electrolyzer cannot activate if the pump is not running:
+
+- Heat pump (dry contact)  
+- Electrolyzer (dry contact)  
+- Pool lighting (dry contact)  
+- 12V solenoid valve for water refill  
+- Filtration pump  
+
+### Monitoring and Alerts
+
+PoolConnect also provides:
+
+- Filter pressure measurement and alerts for abnormal values  
+- Water leak detection in the technical room  
+- Pool cover status verification (open/closed)  
+
+### Technology
+
+The system's core is based on an **ESP32-S3-WROOM-1 (N16R8)**, ensuring power, flexibility, and connectivity for all your needs.
 
 ---
 
-## 🎯 What problem does it solve ?
+## Main Features (Hardware + Software)
 
-Traditional pool installations often rely on:  
-⛔ Filtration timers that ignore water temperature  
-⛔ No alert system for leaks in the technical room  
-⛔ No automatic monitoring of filter pressure or clogging  
-⛔ No weather-based automation  
-⛔ No customizable  
-⛔ No MQTT compatible  
+### Filtration and Water Quality
 
-**PoolConnect** combines intelligence, connectivity, and safety in a fully open-source solution.
+- 6 pre-recorded profiles  
+- Ability to create your own equation to determine filtration time  
+  *(available variables: water temperature, current outdoor temperature, predicted MAX outdoor temperature, predicted MIN outdoor temperature, sunlight percentage)*  
+- Complete filtration cycle history  
+- Ability to create fully custom profiles from A to Z  
 
----
+### Safety and Monitoring
 
-## ✨ Key Features (hardware + software)
+- 4–20 mA pressure sensor input for real-time filter clogging detection, with configurable alert threshold  
+  *(sensor calibration available)*  
+- Leak detector in technical room → instant alert in case of flooding  
+- Integrated audible alarm (buzzer) for alarms (leak, filter clogging, fault)  
+- Each input can be used to trigger automation (pump shutdown, heat pump shutdown, etc.)  
 
-### ✔ Filtration & Water Quality
-- Filtration duration configurable as you wish based on water temperature, weather forecasts, sunlight exposure, and other parameters.
-- Water temperature measured using a DS18B20 digital sensor
-- Preconfigured scenarios available
+### Device Control
 
-### ✔ Safety & Monitoring
-- 4–20 mA pressure sensor input for real-time filter clogging detection → configurable alert thresholds
-- Leak detector in the technical room → instant flood alert  
-- Integrated buzzer for alarms (leak, filter clogging, fault)
-
-### ✔ Device Control
-- Filtration pump
+- Filtration pump  
 - Electrolyzer  
-- Pool lighting
-- Heat pump (on/off control)
-- 12 V solenoid valve for automatic water filling
+- Pool lighting  
+- Heat pump (on/off control)  
+- 12V solenoid valve for automatic refill  
 
-### ✔ Connectivity & Integration
-- Embedded web interface 
-- Home Assistant compatibility (MQTT / native integration planned)  
-- Local-first system: no cloud required
-- Weather API integration
+### Connectivity and Integration
+
+- Integrated web interface to configure your entire PoolConnect system  
+- Home Assistant compatibility via MQTT integration  
+- Fully local system: no cloud required  
+- Integrated weather API  
+- Data logging  
+- Pressure and temperature sensor calibration  
+- Manual control via web interface  
+- Language selection (FR or EN)  
+- User configuration  
 
 ---
 
-## 🔧 Hardware Overview
+## Hardware Overview
 
-**Main microcontroller :**  
-- ESP32-S3-WROOM-1 (N16R8) → 16 Mo Flash, 8 Mo PSRAM  
+### Main Microcontroller
 
-**Sensors & Inputs :**  
-- DS18B20 digital temperature sensor 
+- ESP32-S3-WROOM-1 (N16R8) → 16 MB Flash, 8 MB PSRAM  
+
+### Sensors and Inputs
+
+- DS18B20 digital temperature probe  
 - 4–20 mA pressure sensor (filtration)  
-- Leak detector
+- Leak detector  
+- Dry contact input for cover (open / closed)  
 
-**Outputs & Relays :**  
-- Filtration pump relay 
-- Heat pump relay
-- Lighting relay
-- Electrolyzer relay
-- 12 V solenoid valve control 
+### Outputs and Relays
 
-**Alerts & Indicators :**  
-- Integrated buzzer 
-- Input protection and filtering
-- External PILOT / OFF / MANUAL mode selector for each relay (rotary switch)
-- External status LEDs for each relay (5 V) 
+- Relay for filtration pump  
+- Relay for heat pump  
+- Relay for lighting  
+- Relay for electrolyzer  
+- 12V solenoid valve control  
 
----
-<img width="1263" height="802" alt="image" src="https://github.com/user-attachments/assets/73d831a6-8316-4375-83a4-593155cd2701" />
+### Alerts and Indicators
 
-
-## 🧪 Software Status
-
-The firmware is currently in prototype/testing phase: 
-- Temperature monitoring ✔  
-- First version of filtration logic ✔  
-- Web interface ✔  
-- Hardware layer ✔  
-- MQTT + Home Assistant integration ✔  
-- Pressure sensor, leak detection, and alarms ✔  
-- OTA firmware updates ✔
-- More features coming soon... 
+- Integrated buzzer  
+- Input protection and filtering  
+- External mode selector AUTO / OFF / MANUAL for each relay (rotary switch)  
+- External status LEDs for each relay (5V)  
 
 ---
-<img width="446" height="538" alt="image" src="https://github.com/user-attachments/assets/f8c1eac2-8a08-45c3-abbe-f5ee3647511e" />
-<img width="1892" height="902" alt="image" src="https://github.com/user-attachments/assets/56ebca87-8b25-4ff3-93ae-a713702825d7" />
-- For more visuals, see the img folder in the GitHub repository.
+
+## Safety
+
+⚠️ **WARNING**: This project controls electrical equipment (230V).  
+Any installation must be performed by a qualified person.  
+PoolConnect does not replace mandatory electrical protections (circuit breaker, GFCI, etc.).
+
+---
+
+## Build with Commercial Modules
+
+It is possible to use independent modules to build this project, or to manufacture/purchase the official PCB (coming soon).
+
+### Bill of Materials
+
+- [ESP32-S3-WROOM-1 (N16R8)](https://fr.aliexpress.com/item/1005007319706057.html)  
+- [DS18B20 Digital Temperature Probe](https://fr.aliexpress.com/item/1005008024174225.html)  
+- [4–20 mA Pressure Sensor](https://fr.aliexpress.com/item/1005010536806042.html)  
+- [Leak Sensor (use relay as digital output)](https://fr.aliexpress.com/item/1005001462767498.html)  
+- [INA226 + 1 ohm resistor to install](https://fr.aliexpress.com/item/1005009774355109.html)  
+- [5-relay board minimum](https://fr.aliexpress.com/item/1005008269018032.html)  
+- [Buzzer](https://fr.aliexpress.com/item/1005007798521103.html)  
+
+The items mentioned above can be replaced by equivalent equipment.
+
+---
+
+## Pin Configuration (PIN OUT)
+
+| Pin 	 | Function						 | Type 			|
+|--------|-------------------------------|------------------|
+| IO4 	 | Filtration pump relay 		 | Digital output 	|
+| IO5 	 | Electrolyzer relay 			 | Digital output	|
+| IO6	 | Light relay 					 | Digital output	|
+| IO7	 | Solenoid valve relay 		 | Digital output   |
+| IO17	 | SCL INA226 (4–20 mA pressure) | I2C 				|
+| IO18	 | SDA INA226 (4–20 mA pressure) | I2C 				|
+| IO1 	 | Leak sensor 					 | Digital input 	|
+| IO2	 | Cover open contact 			 | Digital input 	|
+| IO38 	 | SK6812 addressable LED		 | Digital output 	|
+| IO46	 | Heat pump relay 				 | Digital output 	|
+| IO14	 | DS18B20 temperature probe 	 | OneWire			|
+| IO21	 | Buzzer 						 | Digital output 	|
+
+### Wiring Diagram
+
+Follow this wiring:
+
+<img width="1263" height="802" alt="PoolConnect wiring diagram" src="https://github.com/user-attachments/assets/73d831a6-8316-4375-83a4-593155cd4892" />
+
+---
+
+## Project PCB
+
+A first version of the PCB is validated and functional. You will find the files to allow you to order the PCB online (especially from JLCPCB who supported me for this project).
+
+A second version is in progress. This new version aims to make the system integrable on DIN rail of electrical cabinets. It will also integrate the addition of memory for history and some minor improvements.
+
+### First Version
+
+<img width="1263" height="802" alt="PoolConnect PCB V1" src="https://github.com/user-attachments/assets/73d831a6-8316-4375-83a4-593155cd2701" />
+
+---
+
+## Firmware Installation
+
+To download the firmware, you can use Arduino IDE or the **"Poolconnect_installer"** tool.
+
+### With Arduino IDE
+
+1. Download the **"Poolconnect_installer"** tool
+2. Launch the tool, click on **"Install All Libraries"** then on **"Install ESP32 Board"**  
+   *(the tool will automatically install the necessary libraries for the Arduino project)*
+3. You will also need the [LittleFS Upload Plugin](https://github.com/earlephilhower/arduino-littlefs-upload)
+
+### With Poolconnect_installer Tool
+
+1. Download the **"Poolconnect_installer"** tool
+2. Launch the tool, click on the **"Flash ESP32"** tab
+3. Select the 4 necessary binaries available in the **"build"** folder:
+   - `Poolconnect.ino.bin`
+   - `Poolconnect.ino.bootloader.bin`
+   - `Poolconnect.ino.partitions.bin`
+   - `littlefs_web_V1.0.2.bin`
+4. Click on **"Flash ESP32"**
 
 ---
 
 ## 🤝 Contributing
 
-PoolConnect is a community-driven project. You can contribute by sharing feedback, testing prototypes, or helping with software and hardware development.
-All skills are welcome: software development, electronics, 3D printing, UI/UX, documentation, and more.
+PoolConnect is a community project: you can contribute by giving your feedback, testing, or participating in code and electronics development.  
 
-I chose JLCPCB for their expertise and support throughout the prototype production process.
-They provide excellent manufacturing quality, fast turnaround, and very competitive pricing.
-They also offer many advanced PCB inspection and measurement options — a real advantage!
+All skills are welcome:
+- Software development
+- Electronics
+- 3D printing
+- User interface
+- Documentation
+- ...
+
+### PCB Partner
+
+I chose **JLCPCB** for their expertise and support throughout the prototype production process.
+
+They also offer:
+- Excellent manufacturing quality
+- Remarkable responsiveness
+- Very attractive pricing
+- Many available options to verify or measure different aspects of PCBs
 
 ---
 
 ## ❤️ Support the Project
- 
-If PoolConnect inspires you or helps make pool automation more accessible, you can support its development: 
 
-[💸 Support me on PayPal](https://www.paypal.com/donate/?hosted_button_id=K8RZ7FPXE39XA)  
-[☕ Support me on Buy Me a Coffee](https://buymeacoffee.com/poolconnect)  
+If PoolConnect inspires you or makes pool automation accessible, you can support its development:  
 
-Your contribution directly funds hardware production and software development.
+- [💸 Support me on PayPal](https://www.paypal.com/donate/?hosted_button_id=K8RZ7FPXE39XA)  
+- [☕ Support me on Buy Me a Coffee](https://buymeacoffee.com/poolconnect)  
 
 ---
 
-## 📄 Licence
+## 📄 License
 
-MIT License — free to use, modify, and redistribute.
+**MIT License** – free use, modification, and redistribution.
+
+See the [LICENSE](LICENSE) file for more details.
 
 ---
 
 ## 📬 Contact
 
-Feel free to reach out or open an issue to follow the project or contribute.
-Your support helps accelerate hardware production and keeps the project fully open source.
+Feel free to contact us or open an issue to follow the development or contribute to it.  
+
+Your support accelerates hardware production and keeps the project entirely open source.
+
+---
+
+**⭐ If you like this project, feel free to give it a star on GitHub!**

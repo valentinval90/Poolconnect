@@ -1,0 +1,14 @@
+# PoolConnect Installer - Dependencies
+# Python 3.8+
+
+# Interface graphique (inclus dans Python standard)
+# tkinter - Inclus dans Python
+
+# Communication série
+pyserial==3.5
+
+# Flashage ESP32
+esptool==4.6.2
+
+# Utilitaires
+requests==2.31.0
